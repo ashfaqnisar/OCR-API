@@ -35,10 +35,10 @@ app.get('/debug-sentry', function mainHandler(req, res) {
 
 app.use(Sentry.Handlers.errorHandler());
 
-// app.use(function onError(err, req, res, next) {
-//     res.statusCode = 500;
-//     res.end(res.sentry + "\n" + err.message);
-// });
+app.use(function onError(err, req, res, next) {
+    res.statusCode = 500;
+    res.end(res.sentry + "\n" + err.message);
+});
 
 const listener = app.listen(process.env.PORT || 8080 || 8500, function () {
     console.log("Listening on port " + listener.address().port);
