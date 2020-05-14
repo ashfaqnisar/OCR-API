@@ -126,7 +126,7 @@ app.post("/ocr", async (req, res) => {
         const {image} = req.body;
         const {uid} = req.query;
 
-        if (!uid){
+        if (!uid) {
             res.status(400).json({code: 400, message: "Please,provide the uid with the request"})
         }
 
@@ -152,7 +152,6 @@ app.post("/ocr", async (req, res) => {
         res.status(err.code || 500).json(error);
     }
 })
-
 app.get("/ocr/:ocrId", async (req, res) => {
     try {
         const {ocrId} = req.params;
@@ -185,7 +184,7 @@ app.get("/ocr/:ocrId", async (req, res) => {
 app.get("/ocr", async (req, res) => {
     try {
         const {uid} = req.query;
-        if (!uid){
+        if (!uid) {
             res.status(400).json({code: 400, message: "Please,provide the uid with the request"})
         }
         let ocrArray = [];
