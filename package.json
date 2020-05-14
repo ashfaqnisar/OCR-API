@@ -16,6 +16,7 @@
   "dependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.8.7",
+    "@babel/plugin-transform-runtime": "^7.8.3",
     "@babel/preset-env": "^7.8.7",
     "@babel/runtime": "^7.8.7",
     "@sentry/node": "5.15.5",
@@ -24,26 +25,34 @@
     "express": "^4.17.1",
     "firebase": "7.10.0",
     "morgan": "~1.9.1",
+    "multer": "^1.4.2",
     "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
-    "@babel/plugin-transform-runtime": "^7.8.3"
+    "tesseract.js": "^2.1.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
   },
   "nodemonConfig": {
     "exec": "npm run dev",
-    "watch": ["server/*", "public/*"],
-    "ignore": ["**/__tests__/**", "*.test.js", "*.spec.js"]
+    "watch": [
+      "server/*",
+      "public/*"
+    ],
+    "ignore": [
+      "**/__tests__/**",
+      "*.test.js",
+      "*.spec.js"
+    ]
   },
-
   "keywords": [],
   "babel": {
     "presets": [
       "@babel/preset-env"
     ],
     "plugins": [
-      ["@babel/plugin-transform-runtime",
+      [
+        "@babel/plugin-transform-runtime",
         {
           "regenerator": true
         }
