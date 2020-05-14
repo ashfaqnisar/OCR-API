@@ -1,10 +1,10 @@
 {
-    "apiKey": "AIzaSyB4cborWdhl0H-A6T8kPPfAnBaocoCa3iM",
-    "authDomain": "ezerka-ocr-api.firebaseapp.com",
-    "databaseURL": "https://ezerka-ocr-api.firebaseio.com",
-    "projectId": "ezerka-ocr-api",
-    "storageBucket": "ezerka-ocr-api.appspot.com",
-    "messagingSenderId": "525242032066",
-    "appId": "1:525242032066:web:fa92c8d46bc5f24aac005b",
-    "measurementId": "G-KNR99TQQ2F"
+    "apiKey": "AIzaSyAM5ll_76WioPQyUqole9R_cT923t8X4Og",
+    "authDomain": "ezerka-ocr.firebaseapp.com",
+    "databaseURL": "https://ezerka-ocr.firebaseio.com",
+    "projectId": "ezerka-ocr",
+    "storageBucket": "ezerka-ocr.appspot.com",
+    "messagingSenderId": "736297238373",
+    "appId": "1:736297238373:web:6c3dbe34c87b6e1ba4eb8c",
+    "measurementId": "G-T9PG0MJEQN"
   }
