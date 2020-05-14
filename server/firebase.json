@@ -1,9 +1,10 @@
 {
-  "apiKey": "AIzaSyDn1kAPpSLARPrSBb83SZruTaC6qcCH49g",
-  "authDomain": "ims-invoice-management-system.firebaseapp.com",
-  "databaseURL": "https://ims-invoice-management-system.firebaseio.com",
-  "projectId": "ims-invoice-management-system",
-  "storageBucket": "ims-invoice-management-system.appspot.com",
-  "messagingSenderId": "82002035448",
-  "appId": "1:82002035448:web:7b4e1e352e5b69fe68b10d"
-}
+    apiKey: "AIzaSyB4cborWdhl0H-A6T8kPPfAnBaocoCa3iM",
+    authDomain: "ezerka-ocr-api.firebaseapp.com",
+    databaseURL: "https://ezerka-ocr-api.firebaseio.com",
+    projectId: "ezerka-ocr-api",
+    storageBucket: "ezerka-ocr-api.appspot.com",
+    messagingSenderId: "525242032066",
+    appId: "1:525242032066:web:fa92c8d46bc5f24aac005b",
+    measurementId: "G-KNR99TQQ2F"
+  }
