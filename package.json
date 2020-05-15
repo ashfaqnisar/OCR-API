@@ -19,6 +19,7 @@
     "@babel/plugin-transform-runtime": "^7.8.3",
     "@babel/preset-env": "^7.8.7",
     "@babel/runtime": "^7.8.7",
+    "@google-cloud/storage": "^5.0.0",
     "@google-cloud/vision": "^1.11.0",
     "@sentry/node": "5.15.5",
     "cors": "2.8.5",

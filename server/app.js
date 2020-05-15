@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import * as Sentry from '@sentry/node';
 import vision from '@google-cloud/vision'
+import {Storage} from '@google-cloud/storage';
 
 const app = express();
 
@@ -19,14 +20,16 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, "public")));
 
 const client = new vision.ImageAnnotatorClient()
+const storage = new Storage();
+
 
 const bucketName = "bucket-ezerka-ocr"
 
-const fileName = "sample.pdf"
+const bucketFileName = "sample.pdf"
 
 const outputPrefix = 'results'
 
-const gcsSourceUri = `gs://${bucketName}/${fileName}`;
+const gcsSourceUri = `gs://${bucketName}/${bucketFileName}`;
 const gcsDestinationUri = `gs://${bucketName}/${outputPrefix}/`;
 
 const inputConfig = {
@@ -71,8 +74,26 @@ app.get('/', async (req, res) => {
     }
 
 });
-
-
+app.get("/upload", async (req, res) => {
+    try {
+        const fileName = './sampleUpload.pdf'
+        await storage.bucket(bucketName).upload(fileName, {
+            // Support for HTTP requests made with `Accept-Encoding: gzip`
+            gzip: true,
+            // By setting the option `destination`, you can change the name of the
+            // object you are uploading to a bucket.
+            metadata: {
+                // Enable long-lived HTTP caching headers
+                // Use only if the contents of the file will never change
+                // (If the contents will change, use cacheControl: 'no-cache')
+                cacheControl: 'public, max-age=31536000',
+            },
+        });
+        res.status(200).send(`${fileName} uploaded to ${bucketName}`)
+    } catch (e) {
+        res.status(500).send(e)
+    }
+})
 
 app.get('/debug-sentry', function mainHandler(req, res) {
     throw new Error('This is an test error!');
