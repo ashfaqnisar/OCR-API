@@ -5,6 +5,8 @@ import cors from 'cors';
 import * as Sentry from '@sentry/node';
 import vision from '@google-cloud/vision'
 import {Storage} from '@google-cloud/storage';
+import multer, {memoryStorage} from "multer";
+import service from './service'
 
 const app = express();
 
@@ -19,6 +21,9 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, "public")));
 
+const options = {
+    projectId: "test1-235407", keyFileName: service
+}
 const client = new vision.ImageAnnotatorClient()
 const storage = new Storage();
 
@@ -31,6 +36,7 @@ const outputPrefix = 'results'
 
 const gcsSourceUri = `gs://${bucketName}/${bucketFileName}`;
 const gcsDestinationUri = `gs://${bucketName}/${outputPrefix}/`;
+
 
 const inputConfig = {
     // Supported mime_types are: 'application/pdf' and 'image/tiff'
@@ -55,6 +61,14 @@ const request = {
     ],
 };
 
+const mul = multer({
+    storage: memoryStorage(),
+    limits: {
+        fileSize: 5 * 1024 * 1024 // no larger than 5mb
+    }
+});
+const bucket = storage.bucket(bucketName)
+
 
 app.get('/', async (req, res) => {
     try {
@@ -74,24 +88,53 @@ app.get('/', async (req, res) => {
     }
 
 });
-app.get("/upload", async (req, res) => {
+app.post("/upload", mul.single("file"), async (req, res, next) => {
     try {
-        const fileName = './sampleUpload.pdf'
-        await storage.bucket(bucketName).upload(fileName, {
-            // Support for HTTP requests made with `Accept-Encoding: gzip`
-            gzip: true,
-            // By setting the option `destination`, you can change the name of the
-            // object you are uploading to a bucket.
+        if (!req.file) {
+            res.status(400).json('Provide an pdf')
+        }
+        const gcsFileName = `${req.file.originalname}`
+        const file = bucket.file(gcsFileName);
+
+        const blobStream = file.createWriteStream({
             metadata: {
-                // Enable long-lived HTTP caching headers
-                // Use only if the contents of the file will never change
-                // (If the contents will change, use cacheControl: 'no-cache')
-                cacheControl: 'public, max-age=31536000',
-            },
+                contentType: req.file.mimetype
+            }
         });
-        res.status(200).send(`${fileName} uploaded to ${bucketName}`)
+
+        blobStream.on("error", err => {
+            next(err);
+        });
+
+        blobStream.on("finish", () => {
+            // The public URL can be used to directly access the file via HTTP.
+            const publicUrl = `https://storage.googleapis.com/${bucket.name}/${file.name}`;
+
+            // Make the image public to the web (since we'll be displaying it in browser)
+            file.makePublic().then(() => {
+                res.status(200).send(`Success!\n Image uploaded to ${publicUrl}`);
+            });
+        });
+
+        blobStream.end(req.file.buffer);
+
+
+        // const fileName = './sampleUpload.pdf'
+        // await storage.bucket(bucketName).upload(fileName, {
+        //     // Support for HTTP requests made with `Accept-Encoding: gzip`
+        //     gzip: true,
+        //     // By setting the option `destination`, you can change the name of the
+        //     // object you are uploading to a bucket.
+        //     metadata: {
+        //         // Enable long-lived HTTP caching headers
+        //         // Use only if the contents of the file will never change
+        //         // (If the contents will change, use cacheControl: 'no-cache')
+        //         cacheControl: 'public, max-age=31536000',
+        //     },
+        // });
+        // res.status(200).send(`${fileName} uploaded to ${bucketName}`)
     } catch (e) {
-        res.status(500).send(e)
+        res.status(500).send({...e})
     }
 })
 
