@@ -7,15 +7,13 @@ import * as Sentry from '@sentry/node';
 import vision from '@google-cloud/vision'
 import {Storage} from '@google-cloud/storage';
 import multer, {memoryStorage} from "multer";
-import service from './service'
-import firebase, {db} from "./firebase";
+import serviceOptions from './service'
 
 const app = express();
 
 
 Sentry.init({dsn: 'https://f2c1250fc2344eaa8c11e9a3e2503fb9@o361783.ingest.sentry.io/5239445'});
-// app.set('views', path.join(__dirname, 'routes'));
-// app.set('view engine', 'pug');
+
 app.use(Sentry.Handlers.requestHandler());
 app.use(cors());
 app.use(morgan("dev"));
@@ -23,11 +21,9 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, "public")));
 
-const options = {
-    projectId: "test1-235407", keyFileName: service
-}
-const client = new vision.ImageAnnotatorClient(options)
-const storage = new Storage(options);
+
+const client = new vision.ImageAnnotatorClient(serviceOptions)
+const storage = new Storage(serviceOptions);
 
 const increment = firebase.firestore.FieldValue.increment(1);
 
@@ -42,7 +38,6 @@ const gcsDestinationUri = `gs://${bucketName}/${outputPrefix}/`;
 
 
 const inputConfig = {
-    // Supported mime_types are: 'application/pdf' and 'image/tiff'
     mimeType: 'application/pdf',
     gcsSource: {
         uri: gcsSourceUri,
@@ -72,7 +67,6 @@ const mul = multer({
 });
 const bucket = storage.bucket(bucketName)
 
-const increment = firebase.firestore.FieldValue.increment(1);
 
 app.get('/', (req, res) => {
     res.status(200).send(`OCR API`)
@@ -195,7 +189,7 @@ app.get("/ocr", async (req, res) => {
         if (!uid) {
             res.status(400).json({code: 400, message: "Please,provide the uid with the request"})
         }
-        let ocrArray = [];
+        let ocrArray;
 
         const ocrDocs = await db.collection("users").doc(uid).collection("ocr").get()
 

@@ -1,4 +1,4 @@
-export default {
+const service = {
     "type": "service_account",
     "project_id": "test1-235407",
     "private_key_id": "ac1ed4215ec90098d1e8d2d2e3eee84b2a0ad7c8",
@@ -10,3 +10,7 @@ export default {
     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
     "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/ashfaq%40test1-235407.iam.gserviceaccount.com"
 }
+const serviceOptions ={
+    projectId: "test1-235407", keyFileName: service
+}
+export default serviceOptions
