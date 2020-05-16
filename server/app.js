@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import morgan from 'morgan';
 import cors from 'cors';
+import firebase, {db} from './firebase'
 import * as Sentry from '@sentry/node';
 import vision from '@google-cloud/vision'
 import {Storage} from '@google-cloud/storage';
@@ -28,6 +29,7 @@ const options = {
 const client = new vision.ImageAnnotatorClient(options)
 const storage = new Storage(options);
 
+const increment = firebase.firestore.FieldValue.increment(1);
 
 const bucketName = "bucket-ezerka-ocr"
 
