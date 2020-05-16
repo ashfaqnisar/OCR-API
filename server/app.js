@@ -24,13 +24,13 @@ app.use(express.static(path.join(__dirname, "public")));
 const options = {
     projectId: "test1-235407", keyFileName: service
 }
-const client = new vision.ImageAnnotatorClient()
-const storage = new Storage();
+const client = new vision.ImageAnnotatorClient(options)
+const storage = new Storage(options);
 
 
 const bucketName = "bucket-ezerka-ocr"
 
-const bucketFileName = "sample.pdf"
+const bucketFileName = "best.pdf"
 
 const outputPrefix = 'results'
 
@@ -64,13 +64,13 @@ const request = {
 const mul = multer({
     storage: memoryStorage(),
     limits: {
-        fileSize: 5 * 1024 * 1024 // no larger than 5mb
+        fileSize: 10 * 1024 * 1024
     }
 });
 const bucket = storage.bucket(bucketName)
 
 
-app.get('/', async (req, res) => {
+app.get('/process', async (req, res) => {
     try {
         const [operation] = await client.asyncBatchAnnotateFiles(request);
         const [filesResponse] = await operation.promise();
@@ -118,21 +118,6 @@ app.post("/upload", mul.single("file"), async (req, res, next) => {
 
         blobStream.end(req.file.buffer);
 
-
-        // const fileName = './sampleUpload.pdf'
-        // await storage.bucket(bucketName).upload(fileName, {
-        //     // Support for HTTP requests made with `Accept-Encoding: gzip`
-        //     gzip: true,
-        //     // By setting the option `destination`, you can change the name of the
-        //     // object you are uploading to a bucket.
-        //     metadata: {
-        //         // Enable long-lived HTTP caching headers
-        //         // Use only if the contents of the file will never change
-        //         // (If the contents will change, use cacheControl: 'no-cache')
-        //         cacheControl: 'public, max-age=31536000',
-        //     },
-        // });
-        // res.status(200).send(`${fileName} uploaded to ${bucketName}`)
     } catch (e) {
         res.status(500).send({...e})
     }
