@@ -1,5 +1,6 @@
 import firebase from "firebase";
-const config ={
+
+const config = {
     "apiKey": "AIzaSyAM5ll_76WioPQyUqole9R_cT923t8X4Og",
     "authDomain": "ezerka-ocr.firebaseapp.com",
     "databaseURL": "https://ezerka-ocr.firebaseio.com",
