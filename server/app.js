@@ -140,7 +140,7 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
 
         ocrResponse = processResponse(ocrResponse)
 
-        ocrResponse["filename"] = ocrResponse["filename"] + path.extname(req.file.originalname)
+        ocrResponse["filename"] = useNanonets ? ocrResponse["filename"] + path.extname(req.file.originalname) : `${req.file.originalname}`
         console.log(ocrResponse)
 
         let gcsFileName = ocrResponse["filename"]
