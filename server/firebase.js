@@ -5,7 +5,7 @@ const config = {
     "authDomain": "ezerka-ocr.firebaseapp.com",
     "databaseURL": "https://ezerka-ocr.firebaseio.com",
     "projectId": "ezerka-ocr",
-    "storageBucket": "ezerka-ocr.appspot.com",
+    "storageBucket": "esocr-app",
     "messagingSenderId": "736297238373",
     "appId": "1:736297238373:web:6c3dbe34c87b6e1ba4eb8c",
     "measurementId": "G-T9PG0MJEQN"
