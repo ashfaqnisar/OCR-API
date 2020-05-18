@@ -4,10 +4,9 @@ import morgan from 'morgan';
 import cors from 'cors';
 import firebase, {db} from './firebase'
 import * as Sentry from '@sentry/node';
-import vision from '@google-cloud/vision'
 import {Storage} from '@google-cloud/storage';
 import multer, {memoryStorage} from "multer";
-import serviceOptions from './service'
+
 
 const app = express();
 
@@ -22,42 +21,13 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, "public")));
 
 
-const client = new vision.ImageAnnotatorClient(serviceOptions)
-const storage = new Storage(serviceOptions);
+const storage = new Storage({
+    projectId:'ezerka-ocr',keyFilename:'config/service.json'
+});
 
 const increment = firebase.firestore.FieldValue.increment(1);
 
-const bucketName = "bucket-ezerka-ocr"
-
-const bucketFileName = "best.pdf"
-
-const outputPrefix = 'results'
-
-const gcsSourceUri = `gs://${bucketName}/${bucketFileName}`;
-const gcsDestinationUri = `gs://${bucketName}/${outputPrefix}/`;
-
-
-const inputConfig = {
-    mimeType: 'application/pdf',
-    gcsSource: {
-        uri: gcsSourceUri,
-    },
-};
-const outputConfig = {
-    gcsDestination: {
-        uri: gcsDestinationUri,
-    },
-};
-const features = [{type: 'DOCUMENT_TEXT_DETECTION'}];
-const request = {
-    requests: [
-        {
-            inputConfig: inputConfig,
-            features: features,
-            outputConfig: outputConfig,
-        },
-    ],
-};
+const bucketName = "esocr-app"
 
 const mul = multer({
     storage: memoryStorage(),
@@ -65,8 +35,8 @@ const mul = multer({
         fileSize: 10 * 1024 * 1024
     }
 });
-const bucket = storage.bucket(bucketName)
 
+const bucket = storage.bucket(bucketName)
 
 app.get('/', (req, res) => {
     res.status(200).send(`OCR API`)
@@ -208,24 +178,6 @@ app.get("/ocr", async (req, res) => {
 });
 
 
-app.get('/process', async (req, res) => {
-    try {
-        const [operation] = await client.asyncBatchAnnotateFiles(request);
-        const [filesResponse] = await operation.promise();
-        const destinationUri =
-            filesResponse.responses[0].outputConfig.gcsDestination.uri;
-        console.log('Json saved to: ' + destinationUri);
-
-        res.status(200).send(destinationUri)
-    } catch (e) {
-        const err = {
-            code: e.code || 500,
-            message: e.message || e.status
-        }
-        res.status(e.code || 500).send(err)
-    }
-
-});
 app.post("/upload", mul.single("file"), async (req, res, next) => {
     try {
         if (!req.file) {
