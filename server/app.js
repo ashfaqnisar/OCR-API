@@ -4,10 +4,12 @@ import morgan from 'morgan';
 import cors from 'cors';
 import firebase, {db} from './firebase'
 import * as Sentry from '@sentry/node';
-import vision from '@google-cloud/vision'
 import {Storage} from '@google-cloud/storage';
 import multer, {memoryStorage} from "multer";
-import serviceOptions from './service'
+import response from './response';
+import axios from 'axios'
+import {processResponse} from "./util/Beautifier";
+
 
 const app = express();
 
@@ -22,42 +24,13 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, "public")));
 
 
-const client = new vision.ImageAnnotatorClient(serviceOptions)
-const storage = new Storage(serviceOptions);
+const storage = new Storage({
+    projectId: 'ezerka-ocr', keyFilename: 'config/service.json'
+});
 
 const increment = firebase.firestore.FieldValue.increment(1);
 
-const bucketName = "bucket-ezerka-ocr"
-
-const bucketFileName = "best.pdf"
-
-const outputPrefix = 'results'
-
-const gcsSourceUri = `gs://${bucketName}/${bucketFileName}`;
-const gcsDestinationUri = `gs://${bucketName}/${outputPrefix}/`;
-
-
-const inputConfig = {
-    mimeType: 'application/pdf',
-    gcsSource: {
-        uri: gcsSourceUri,
-    },
-};
-const outputConfig = {
-    gcsDestination: {
-        uri: gcsDestinationUri,
-    },
-};
-const features = [{type: 'DOCUMENT_TEXT_DETECTION'}];
-const request = {
-    requests: [
-        {
-            inputConfig: inputConfig,
-            features: features,
-            outputConfig: outputConfig,
-        },
-    ],
-};
+const bucketName = "esocr-app"
 
 const mul = multer({
     storage: memoryStorage(),
@@ -65,11 +38,14 @@ const mul = multer({
         fileSize: 10 * 1024 * 1024
     }
 });
+
 const bucket = storage.bucket(bucketName)
 
+let useNanonets = false;
 
 app.get('/', (req, res) => {
     res.status(200).send(`OCR API`)
+
 });
 
 app.post("/users", async (req, res) => {
@@ -110,6 +86,7 @@ app.get("/users/:uid", async (req, res) => {
                 message: `No, user available with ${uid}`
             }
             res.status(400).json(emptyError)
+            return
         }
         res.status(200).send(user.data());
 
@@ -123,28 +100,87 @@ app.get("/users/:uid", async (req, res) => {
 
 });
 
-app.post("/ocr", async (req, res) => {
+app.post("/ocr", mul.single("file"), async (req, res, next) => {
     try {
-        const {image} = req.body;
         const {uid} = req.query;
-
+        if (!req.file) {
+            res.status(400).json({code: 400, message: 'Please, provide an file with the request '})
+            return
+        }
         if (!uid) {
-            res.status(400).json({code: 400, message: "Please,provide the uid with the request"})
+            res.status(400).json({code: 400, message: "Please, provide the uid with the request"})
+            return
         }
 
-        const statsRef = db.collection("--stats--").doc("ocr");
+        let ocrResponse = response
 
-        const userRef = db.collection("users").doc(uid)
-        const ocrRef = userRef.collection("ocr").doc()
+
+        if (useNanonets) {
+            try {
+                const form_data = {file: fs.createReadStream(req.file)}
+                const nanonetsResponse = axios({
+                    method: 'post',
+                    url: "https://app.nanonets.com/api/v2/OCR/Model/fb1a831a-f45d-4809-b212-12c311e2e75f/LabelFile/",
+                    formData: form_data,
+                    headers: {
+                        'Authorization': 'Basic ' + Buffer.from('hc-nkSevYsWFvfuTkmx5GLhGpQBc8DIy' + ':').toString('base64')
+                    }
+                })
+                ocrResponse = nanonetsResponse.data
+            } catch (e) {
+                const error = {
+                    code: e.code || 500,
+                    message: e.message || e.status
+                }
+                console.log(error)
+                res.status(e.code || 500).json(error)
+                return
+            }
+        }
+
+        ocrResponse = processResponse(ocrResponse)
+
+        ocrResponse["filename"] = ocrResponse["filename"] + path.extname(req.file.originalname)
+        console.log(ocrResponse)
+
+        let gcsFileName = ocrResponse["filename"]
+
+        const statsRef = db.collection("--stats--").doc("ocr");
+        const ocrRef = db.collection("users").doc(uid.toString()).collection("ocr").doc()
 
         const batch = db.batch();
 
-        batch.set(ocrRef, {image, ocrId: ocrRef.id, text: "Text from image"});
+        batch.set(ocrRef, {ocrId: ocrRef.id, ...ocrResponse});
         batch.set(statsRef, {count: increment}, {merge: true});
         await batch.commit()
 
         const ocr = await ocrRef.get()
-        res.status(200).send(ocr.data());
+        res.status(200).json(ocr.data())
+
+        const file = bucket.file(gcsFileName);
+
+        const blobStream = file.createWriteStream({
+            metadata: {
+                contentType: req.file.mimetype
+            }
+        });
+
+        blobStream.on("error", err => {
+            res.status(err.code || 500).json({code: err.code, message: err.message || err})
+            next(err);
+        });
+
+        blobStream.on("finish", () => {
+            // The public URL can be used to directly access the file via HTTP.
+            const publicUrl = `https://storage.googleapis.com/${bucket.name}/${file.name}`;
+
+            // Make the image public to the web (since we'll be displaying it in browser)
+            file.makePublic().then(() => {
+                console.log(`Image public URL: ${publicUrl}`);
+            });
+        });
+
+        blobStream.end(req.file.buffer);
 
     } catch (err) {
         const error = {
@@ -208,24 +244,6 @@ app.get("/ocr", async (req, res) => {
 });
 
 
-app.get('/process', async (req, res) => {
-    try {
-        const [operation] = await client.asyncBatchAnnotateFiles(request);
-        const [filesResponse] = await operation.promise();
-        const destinationUri =
-            filesResponse.responses[0].outputConfig.gcsDestination.uri;
-        console.log('Json saved to: ' + destinationUri);
-
-        res.status(200).send(destinationUri)
-    } catch (e) {
-        const err = {
-            code: e.code || 500,
-            message: e.message || e.status
-        }
-        res.status(e.code || 500).send(err)
-    }
-
-});
 app.post("/upload", mul.single("file"), async (req, res, next) => {
     try {
         if (!req.file) {

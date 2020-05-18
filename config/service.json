@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "ezerka-ocr",
+  "private_key_id": "1e2bd43bd99361eae91c648f8f746972884909c4",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCjOtf2nq2Sv32K\npMAtGOwlJhY5x79+GY5jeQ5ojEupxvY+Zm04ycbjQC5OhwTYdFnvjVVwPgyJID48\nwMdWRJ56LHl3FgxqQVsx34hKWTUwY6yqjwDwnMLtItCB4ruVB2ZNEYRCbv1U7y/A\nsQr8Hz0pXYbfquafOLiwcNFF6l9G7XCjS2ho5Mu4RdDvqptWCC+7uiuzS6GensWo\nVfjFO5iGtDxJBX7Cryr48JKH7RDJgYJYsmsJKW9PB/N4yiMICGMGtJxM/RCVlSnU\nlJuXpIs0drCep22xupZYP9or4ISfx1L9P0+bvY2t1gWbddFSrSibn2EUVkPyM8JN\nOeuRVe8DAgMBAAECggEAMH97Szs6Ny/ODTOGJeARybfXQrOmocDWHZgKP+XvVTJY\nV5H3Qbgx77NSDuLu/aEUV6iWihLlhpid5U8h6u/YZlRwgoF6jtd8UQUpaW237/it\nhL+Yd+UbxXlimjTTpyPbsWpS8aooeuPWPFpd+SsO8Qto12vfuc8QkNv0UeGhDWFl\nZ2MAa/qRCdRWwR9A5IWXZIiSpW5SKQbw9zpqLlFzGYDoyI18z2zOX5w/gRciKMUg\n9GTGBFDFziiBUf9u7wa2tIWiuJlcIMJhcVu7OQVFOwuct7F1cPC/9QwOYwCQvcxD\nHhqEWFWtJKBdJ860S4LmTdWIDvADcWD/KeDm0/21AQKBgQDQVbm2qckfFZl1Dw81\nebf2C4Z0NfNfQWnHjyK+iI97BNRdIleGdhKzD2TtClkpBqX9iUU1sOkVpMz/XvVo\nL0M+Ew8EPirZnZSMWB55llumeW9prepBpGDKePTvVY4PyvbG2cRg09nLaKlMW8Dg\necz3HazL3+DaM9na3GtHFbv2qwKBgQDIk0vBHZ9lDrlko/I/UPlnM6xdfBHmw4eH\nsY6Aly6EBAfPCjMNleXpISZEjXozEaTo0DFUxzqJo7tGobWV2EZvsJedjN/TVq5W\njEZtdZqIl3e2zg38RTkuB/F41ovVZ64/bwc0yn4WENRaD8z46qlEagTOXL2Ib9S+\nR13iQyrJCQKBgCL/E4hUsx1Ooo2gbvybqsRhIT/qRCyvL1a/e6WoCPowUIAooa1L\nrk53+os7Hskefcm+QmsHgdAJ9Am96NmMfu4xg2dCDi6qIucEcnIYSOMJKScGeQB3\n3W6FrRd7Nrb+cD/tGujtDXv24+GY1CihLUYhrQI+ZGYjKahzOG4jf4SrAoGBAJAE\ne2NpcrbsUJ/7vAhMixfYGY5ydKQeh2UeT7TzWLn/7t9xcmDx3ch8Pe8BKtoadC+a\ntaErAFQuFV1M5YZ3aXPu955vtZMY7UtFo5ga1l/3akT/RTl7NuhfWborSvJrZMk1\nXpZAQzJy2Rblu4aLcAiom1TVcF3T9oy9z6KUGdeJAoGAd4JFG7vwet4VR9dVqzx6\nWtw7dx+jrK6oCfzjR39yhmBDycx360ZCBnIsLiXu9452yzceoRBiFr7xpMX5gS1H\nHZTGVF4sTtuyaWyv7dj/NmYpk+SBn3gkwTxIzUD6Oo6N/O5GW444rxWiLOL6gobq\ncAMwsSA8cVJb3w+izGrjkvQ=\n-----END PRIVATE KEY-----\n",
+  "client_email": "escor-user@ezerka-ocr.iam.gserviceaccount.com",
+  "client_id": "106324313058240597818",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/escor-user%40ezerka-ocr.iam.gserviceaccount.com"
+}
