@@ -112,6 +112,11 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
             return
         }
 
+        const user = await db.collection('users').doc(uid.toString()).get()
+        if (!user.exists){
+            res.status(400).json({code: 400, message: `No, user present with the uid ${uid}`})
+        }
+
         let ocrResponse = response
 
 
@@ -197,6 +202,12 @@ app.get("/ocr/:ocrId", async (req, res) => {
 
         if (!(ocrId && uid)) {
             res.status(400).json({code: 400, message: "Please,provide the uid & ocrId"})
+            return
+        }
+        const user = await db.collection('users').doc(uid.toString()).get()
+        if (!user.exists){
+            res.status(400).json({code: 400, message: `No, user present with the uid ${uid}`})
+            return
         }
 
         const ocrRef = db.collection("users").doc(uid).collection("ocr").doc(ocrId)
@@ -207,6 +218,7 @@ app.get("/ocr/:ocrId", async (req, res) => {
                 message: `No, ocr available with ${uid}`
             }
             res.status(400).json(emptyError)
+            return
         }
         res.status(200).send(ocr.data());
 
@@ -224,6 +236,12 @@ app.get("/ocr", async (req, res) => {
         const {uid} = req.query;
         if (!uid) {
             res.status(400).json({code: 400, message: "Please,provide the uid with the request"})
+            return
+        }
+        const user = await db.collection('users').doc(uid.toString()).get()
+        if (!user.exists){
+            res.status(400).json({code: 400, message: `No, user present with the uid ${uid}`})
+            return
         }
         let ocrArray;
 
@@ -244,40 +262,6 @@ app.get("/ocr", async (req, res) => {
 });
 
 
-app.post("/upload", mul.single("file"), async (req, res, next) => {
-    try {
-        if (!req.file) {
-            res.status(400).json('Provide an pdf')
-        }
-        const gcsFileName = `${req.file.originalname}`
-        const file = bucket.file(gcsFileName);
-
-        const blobStream = file.createWriteStream({
-            metadata: {
-                contentType: req.file.mimetype
-            }
-        });
-
-        blobStream.on("error", err => {
-            next(err);
-        });
-
-        blobStream.on("finish", () => {
-            // The public URL can be used to directly access the file via HTTP.
-            const publicUrl = `https://storage.googleapis.com/${bucket.name}/${file.name}`;
-
-            // Make the image public to the web (since we'll be displaying it in browser)
-            file.makePublic().then(() => {
-                res.status(200).send(`Success!\n Image uploaded to ${publicUrl}`);
-            });
-        });
-
-        blobStream.end(req.file.buffer);
-
-    } catch (e) {
-        res.status(500).send({...e})
-    }
-})
 
 app.get('/debug-sentry', function mainHandler(req, res) {
     throw new Error('This is an test error!');
