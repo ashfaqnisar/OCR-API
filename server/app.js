@@ -113,7 +113,7 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
         }
 
         const user = await db.collection('users').doc(uid.toString()).get()
-        if (!user.exists){
+        if (!user.exists) {
             res.status(400).json({code: 400, message: `No, user present with the uid ${uid}`})
         }
 
@@ -145,17 +145,17 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
 
         ocrResponse = processResponse(ocrResponse)
 
-        ocrResponse["filename"] = useNanonets ? ocrResponse["filename"] + path.extname(req.file.originalname) : `${req.file.originalname}`
+        ocrResponse["uploadedFile"] = useNanonets ? ocrResponse["uploadedFile"] + path.extname(req.file.originalname) : `${req.file.originalname}`
         console.log(ocrResponse)
 
-        let gcsFileName = ocrResponse["filename"]
+        let gcsFileName = ocrResponse["uploadedFile"]
 
         const statsRef = db.collection("--stats--").doc("ocr");
         const ocrRef = db.collection("users").doc(uid.toString()).collection("ocr").doc()
 
         const batch = db.batch();
 
-        batch.set(ocrRef, {ocrId: ocrRef.id, ...ocrResponse});
+        batch.set(ocrRef, {id: ocrRef.id, ...ocrResponse});
         batch.set(statsRef, {count: increment}, {merge: true});
         await batch.commit()
 
@@ -205,7 +205,7 @@ app.get("/ocr/:ocrId", async (req, res) => {
             return
         }
         const user = await db.collection('users').doc(uid.toString()).get()
-        if (!user.exists){
+        if (!user.exists) {
             res.status(400).json({code: 400, message: `No, user present with the uid ${uid}`})
             return
         }
@@ -239,7 +239,7 @@ app.get("/ocr", async (req, res) => {
             return
         }
         const user = await db.collection('users').doc(uid.toString()).get()
-        if (!user.exists){
+        if (!user.exists) {
             res.status(400).json({code: 400, message: `No, user present with the uid ${uid}`})
             return
         }
@@ -260,7 +260,6 @@ app.get("/ocr", async (req, res) => {
     }
 
 });
-
 
 
 app.get('/debug-sentry', function mainHandler(req, res) {
