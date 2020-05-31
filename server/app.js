@@ -145,10 +145,12 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
 
         ocrResponse = processResponse(ocrResponse)
 
-        ocrResponse["uploadedFile"] = useNanonets ? ocrResponse["uploadedFile"] + path.extname(req.file.originalname) : `${req.file.originalname}`
+
+        ocrResponse["fileId"] = useNanonets ? ocrResponse["fileId"] + path.extname(req.file.originalname) : `${req.file.originalname}`
+        ocrResponse['uploadedFile'] = useNanonets ? ocrResponse["uploadedFile"] : `${req.file.originalname}`
         console.log(ocrResponse)
 
-        let gcsFileName = ocrResponse["uploadedFile"]
+        let gcsFileName = ocrResponse["fileId"]
 
         const statsRef = db.collection("--stats--").doc("ocr");
         const ocrRef = db.collection("users").doc(uid.toString()).collection("ocr").doc()
@@ -162,7 +164,8 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
         const ocr = await ocrRef.get()
         res.status(200).json(ocr.data())
 
-        const file = bucket.file(gcsFileName);
+        const file = bucket.file("images/" + gcsFileName);
+
 
         const blobStream = file.createWriteStream({
             metadata: {
