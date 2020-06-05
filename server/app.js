@@ -9,6 +9,7 @@ import multer, {memoryStorage} from "multer";
 import response from './response';
 import axios from 'axios'
 import {processResponse} from "./util/Beautifier";
+import fs from 'fs';
 
 
 const app = express();
@@ -146,7 +147,7 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
         ocrResponse = processResponse(ocrResponse)
 
 
-        ocrResponse["fileId"] = useNanonets ? ocrResponse["fileId"] + path.extname(req.file.originalname) : `${req.file.originalname}`
+        ocrResponse["fileId"] = useNanonets ? ocrResponse["fileId"] : `${req.file.originalname}`
         ocrResponse['uploadedFile'] = useNanonets ? ocrResponse["uploadedFile"] : `${req.file.originalname}`
         console.log(ocrResponse)
 
@@ -164,7 +165,7 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
         const ocr = await ocrRef.get()
         res.status(200).json(ocr.data())
 
-        const file = bucket.file("images/" + gcsFileName);
+        const file = bucket.file("files/" + gcsFileName);
 
 
         const blobStream = file.createWriteStream({
