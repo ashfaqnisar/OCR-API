@@ -3,16 +3,25 @@ export default {
     "result": [
         {
             "message": "Success",
-            "input": "sample-2.png",
+            "input": "test2.pdf",
             "prediction": [
                 {
-                    "label": "providerName:",
+                    "label": "firstName",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
                     "ymax": 879,
                     "score": 1,
-                    "ocr_text": "Jessica"
+                    "ocr_text": "Ashfaq"
+                },
+                {
+                    "label": "secondName",
+                    "xmin": 895,
+                    "ymin": 846,
+                    "xmax": 1021,
+                    "ymax": 879,
+                    "score": 1,
+                    "ocr_text": "Nisar"
                 }
             ],
             "page": 0,
