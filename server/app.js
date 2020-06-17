@@ -147,25 +147,29 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
         ocrResponse = processResponse(ocrResponse)
 
 
-        ocrResponse["fileId"] = useNanonets ? ocrResponse["fileId"] : `${req.file.originalname}`
         ocrResponse['uploadedFile'] = useNanonets ? ocrResponse["uploadedFile"] : `${req.file.originalname}`
         console.log(ocrResponse)
 
-        let gcsFileName = ocrResponse["fileId"]
+        let gcsFileName = ocrResponse["fileId"] + path.extname(req.file.originalname)
+
+        ocrResponse['gcsFile'] = gcsFileName
 
         const statsRef = db.collection("--stats--").doc("ocr");
+        const userOCRStatsRef = db.collection("users").doc(uid.toString()).collection('info').doc("ocr");
         const ocrRef = db.collection("users").doc(uid.toString()).collection("ocr").doc()
 
         const batch = db.batch();
 
-        batch.set(ocrRef, {id: ocrRef.id, ...ocrResponse});
+        batch.set(ocrRef, {id: ocrRef.id, ...ocrResponse})
+
+        batch.set(userOCRStatsRef, {count: increment});
         batch.set(statsRef, {count: increment}, {merge: true});
         await batch.commit()
 
         const ocr = await ocrRef.get()
         res.status(200).json(ocr.data())
 
-        const file = bucket.file("files/" + gcsFileName);
+        const file = bucket.file(`files/${uid}/${gcsFileName}`);
 
 
         const blobStream = file.createWriteStream({
