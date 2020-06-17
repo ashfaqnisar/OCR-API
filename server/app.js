@@ -152,6 +152,8 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
 
         let gcsFileName = ocrResponse["fileId"] + path.extname(req.file.originalname)
 
+        ocrResponse['gcsFile'] = gcsFileName
+
         const statsRef = db.collection("--stats--").doc("ocr");
         const ocrRef = db.collection("users").doc(uid.toString()).collection("ocr").doc()
 
