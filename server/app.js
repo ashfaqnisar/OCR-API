@@ -31,6 +31,7 @@ const storage = new Storage({
 
 const increment = firebase.firestore.FieldValue.increment(1);
 
+
 const bucketName = "esocr-app"
 
 const mul = multer({
@@ -145,7 +146,7 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
         }
 
         ocrResponse = processResponse(ocrResponse)
-
+        ocrResponse['processedAt'] = firebase.firestore.FieldValue.serverTimestamp()
 
         ocrResponse['uploadedFile'] = useNanonets ? ocrResponse["uploadedFile"] : `${req.file.originalname}`
         console.log(ocrResponse)
