@@ -160,7 +160,8 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
 
         const batch = db.batch();
 
-        batch.set(ocrRef, {id: ocrRef.id, ...ocrResponse});
+        batch.set(ocrRef, {id: ocrRef.id, ...ocrResponse})
+
         batch.set(userOCRStatsRef, {count: increment});
         batch.set(statsRef, {count: increment}, {merge: true});
         await batch.commit()
@@ -168,7 +169,7 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
         const ocr = await ocrRef.get()
         res.status(200).json(ocr.data())
 
-        const file = bucket.file(`files/${uid}` + gcsFileName);
+        const file = bucket.file(`files/${uid}/${gcsFileName}`);
 
 
         const blobStream = file.createWriteStream({
