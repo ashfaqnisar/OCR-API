@@ -162,7 +162,7 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
 
         batch.set(ocrRef, {id: ocrRef.id, ...ocrResponse})
 
-        batch.set(userOCRStatsRef, {count: increment});
+        batch.set(userOCRStatsRef, {count: increment}, {merge: true});
         batch.set(statsRef, {count: increment}, {merge: true});
         await batch.commit()
 
