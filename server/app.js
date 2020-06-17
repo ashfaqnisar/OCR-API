@@ -155,13 +155,13 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
         ocrResponse['gcsFile'] = gcsFileName
 
         const statsRef = db.collection("--stats--").doc("ocr");
-        const usersStatRef = db.collection("users").doc(uid.toString())
+        const userOCRStatsRef = db.collection("users").doc(uid.toString()).collection('info').doc("ocr");
         const ocrRef = db.collection("users").doc(uid.toString()).collection("ocr").doc()
 
         const batch = db.batch();
 
         batch.set(ocrRef, {id: ocrRef.id, ...ocrResponse});
-        batch.set(usersStatRef, {"--stats--": {count: increment}});
+        batch.set(userOCRStatsRef, {count: increment});
         batch.set(statsRef, {count: increment}, {merge: true});
         await batch.commit()
 
