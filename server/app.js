@@ -166,7 +166,7 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
         const ocr = await ocrRef.get()
         res.status(200).json(ocr.data())
 
-        const file = bucket.file("files/" + gcsFileName);
+        const file = bucket.file(`files/${uid}` + gcsFileName);
 
 
         const blobStream = file.createWriteStream({
