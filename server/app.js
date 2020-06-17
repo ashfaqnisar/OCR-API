@@ -147,11 +147,10 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
         ocrResponse = processResponse(ocrResponse)
 
 
-        ocrResponse["fileId"] = useNanonets ? ocrResponse["fileId"] : `${req.file.originalname}`
         ocrResponse['uploadedFile'] = useNanonets ? ocrResponse["uploadedFile"] : `${req.file.originalname}`
         console.log(ocrResponse)
 
-        let gcsFileName = ocrResponse["fileId"]
+        let gcsFileName = ocrResponse["fileId"] + path.extname(req.file.originalname)
 
         const statsRef = db.collection("--stats--").doc("ocr");
         const ocrRef = db.collection("users").doc(uid.toString()).collection("ocr").doc()

@@ -26,7 +26,7 @@ export default {
             ],
             "page": 0,
             "request_file_id": "135d6b79-08b1-40b8-9143-42ab2b221871",
-            "filepath": "uploadedfiles/fb1a831a-f45d-4809-b212-12c311e2e75f/PredictionImages/1429547668.jpeg"
+            "filepath": "uploadedfiles/56766bad-b6f8-4e0a-9036-28c6d831fbf4/ImageSets/1107975791.jpeg"
         }
     ]
 }
