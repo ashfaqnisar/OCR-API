@@ -273,10 +273,6 @@ app.get("/ocr", async (req, res) => {
 });
 
 
-app.get('/debug-sentry', function mainHandler(req, res) {
-    throw new Error('This is an test error!');
-});
-
 app.use(Sentry.Handlers.errorHandler());
 
 app.use(function onError(err, req, res, next) {
