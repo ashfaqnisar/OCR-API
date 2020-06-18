@@ -6,13 +6,13 @@ export default {
             "input": "test2.pdf",
             "prediction": [
                 {
-                    "label": "providerHealthCare",
+                    "label": "provider.healthCare",//firstName
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
                     "ymax": 879,
                     "score": 1,
-                    "ocr_text": 'Treejoy HealthCare'
+                    "ocr_text": 'Treejoy HealthCare'//Value
                 },
                 {
                     "label": "providerName",
