@@ -15,7 +15,7 @@ export default {
                     "ocr_text": 'Treejoy HealthCare'//Value
                 },
                 {
-                    "label": "providerName",
+                    "label": "provider.name",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -24,7 +24,7 @@ export default {
                     "ocr_text": 'Vamshi'
                 },
                 {
-                    "label": "NPI",
+                    "label": "provider.NPI",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -33,7 +33,7 @@ export default {
                     "ocr_text": "1417960428"
                 },
                 {
-                    "label": "providerAddress",
+                    "label": "provider.address",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -42,7 +42,7 @@ export default {
                     "ocr_text": "Gachibowli"
                 },
                 {
-                    "label": "providerCity",
+                    "label": "provider.city",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -51,7 +51,7 @@ export default {
                     "ocr_text": "Hyderabad"
                 },
                 {
-                    "label": "providerState",
+                    "label": "provider.state",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -60,7 +60,7 @@ export default {
                     "ocr_text": "Telangana"
                 },
                 {
-                    "label": "providerZip",
+                    "label": "provider.zip",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -69,7 +69,7 @@ export default {
                     "ocr_text": "500006ē"
                 },
                 {
-                    "label": "providerNumber",
+                    "label": "provider.number",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -78,7 +78,7 @@ export default {
                     "ocr_text": "8328277518"
                 },
                 {
-                    "label": "providerFaxNumber",
+                    "label": "provider.faxNumber",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -87,7 +87,7 @@ export default {
                     "ocr_text": "1234567890"
                 },
                 {
-                    "label": "orderIcdCode",
+                    "label": "order.icdCode",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -96,7 +96,7 @@ export default {
                     "ocr_text": "z12"
                 },
                 {
-                    "label": "orderDateOfOrder",
+                    "label": "order.dateOfOrder",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -105,7 +105,7 @@ export default {
                     "ocr_text": "05/19/1999"
                 },
                 {
-                    "label": "patientId",
+                    "label": "patient.id",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -114,7 +114,7 @@ export default {
                     "ocr_text": "12345"
                 },
                 {
-                    "label": "patientFirstName",
+                    "label": "patient.firstName",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -123,7 +123,7 @@ export default {
                     "ocr_text": "Ashfaq"
                 },
                 {
-                    "label": "patientSecondName",
+                    "label": "patient.secondName",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -132,7 +132,7 @@ export default {
                     "ocr_text": "Nisar"
                 },
                 {
-                    "label": "patientDOB",
+                    "label": "patient.dob",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -141,7 +141,7 @@ export default {
                     "ocr_text": "05/19/1999"
                 },
                 {
-                    "label": "patientSex",
+                    "label": "patient.sex",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -150,7 +150,7 @@ export default {
                     "ocr_text": "Male"
                 },
                 {
-                    "label": "patientNumber",
+                    "label": "patient.number",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -159,7 +159,7 @@ export default {
                     "ocr_text": "8328277518"
                 },
                 {
-                    "label": "patientLanguage",
+                    "label": "patient.language",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -168,7 +168,7 @@ export default {
                     "ocr_text": "English"
                 },
                 {
-                    "label": "patientShippingAddress",
+                    "label": "patient.shippingAddress.address",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -177,7 +177,7 @@ export default {
                     "ocr_text": "Gachibowli"
                 },
                 {
-                    "label": "patientShippingAddressCity",
+                    "label": "patient.shippingAddress.city",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -186,7 +186,7 @@ export default {
                     "ocr_text": "Hyderabad"
                 },
                 {
-                    "label": "patientShippingAddressState",
+                    "label": "patient.shippingAddress.state",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -195,7 +195,7 @@ export default {
                     "ocr_text": "Telangana"
                 },
                 {
-                    "label": "patientShippingAddressZip",
+                    "label": "patient.shippingAddress.zip",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -204,7 +204,7 @@ export default {
                     "ocr_text": 500006
                 },
                 {
-                    "label": "patientBillingAddress",
+                    "label": "patient.billingAddress.address",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -214,7 +214,7 @@ export default {
                 },
 
                 {
-                    "label": "patientBillingAddressCity",
+                    "label": "patient.billingAddress.city",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -223,7 +223,7 @@ export default {
                     "ocr_text": "Hyderabad"
                 },
                 {
-                    "label": "patientBillingAddressState",
+                    "label": "patient.billingAddress.state",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -232,7 +232,7 @@ export default {
                     "ocr_text": "Telangana"
                 },
                 {
-                    "label": "patientBillingAddressZip",
+                    "label": "patient.billingAddress.zip",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -241,7 +241,7 @@ export default {
                     "ocr_text": 500006
                 },
                 {
-                    "label": "patientIsHispanicLatinoOrigin",
+                    "label": "patient.isHispanicLatinoOrigin",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -250,7 +250,7 @@ export default {
                     "ocr_text": false
                 },
                 {
-                    "label": "patientRace",
+                    "label": "patient.race",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -259,7 +259,7 @@ export default {
                     "ocr_text": 'Asian'
                 },
                 {
-                    "label": "billingIsESInsurance",
+                    "label": "billing.isESInsurance",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -268,7 +268,7 @@ export default {
                     "ocr_text": false
                 },
                 {
-                    "label": "policyHolderName",
+                    "label": "billing.policyHolder.name",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -277,7 +277,7 @@ export default {
                     "ocr_text": 'Ashfaq'
                 },
                 {
-                    "label": "policyHolderDOB",
+                    "label": "billing.policyHolder.dob",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -286,7 +286,7 @@ export default {
                     "ocr_text": '05/19/1999'
                 },
                 {
-                    "label": "policyHolderRelationshipToPatient",
+                    "label": "billing.policyHolder.relationship",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -295,7 +295,7 @@ export default {
                     "ocr_text": 'self'
                 },
                 {
-                    "label": "primaryInsuranceCarrier",
+                    "label": "billing.primaryInsurance",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -304,16 +304,16 @@ export default {
                     "ocr_text": 'Bajaj'
                 },
                 {
-                    "label": "billingType",
+                    "label": "billing.type",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
                     "ymax": 879,
                     "score": 1,
-                    "ocr_text": 'Ashfaq'
+                    "ocr_text": 'Private'
                 },
                 {
-                    "label": "billingClaimsSubmissionAddress",
+                    "label": "billing.claimsSubmissionAddress",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -322,7 +322,7 @@ export default {
                     "ocr_text": 'Second Floor, Bajaj Insurance, Hi Tech city, Hyderabad'
                 },
                 {
-                    "label": "billingPolicyNumber",
+                    "label": "billing.policyNumber",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -331,7 +331,7 @@ export default {
                     "ocr_text": '12345'
                 },
                 {
-                    "label": "billingGroupNumber",
+                    "label": "billing.groupNumber",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -340,7 +340,7 @@ export default {
                     "ocr_text": '12345'
                 },
                 {
-                    "label": "billingPlan",
+                    "label": "billing.plan",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
@@ -349,7 +349,7 @@ export default {
                     "ocr_text": 'platinum'
                 },
                 {
-                    "label": "billingPriorAuthorizationCode",
+                    "label": "billing.priorAuthorizationCode",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
