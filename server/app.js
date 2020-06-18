@@ -254,7 +254,9 @@ app.get("/ocr", async (req, res) => {
         }
         let ocrArray;
 
-        const ocrDocs = await db.collection("users").doc(uid).collection("ocr").get()
+        const ocrDocs = await db.collection("users").doc(uid).collection("ocr")
+            .orderBy("processedAt", "desc")
+            .get()
 
         ocrArray = ocrDocs.docs.map(ocrDoc => ocrDoc.data())
 
