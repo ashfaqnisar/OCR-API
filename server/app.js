@@ -31,6 +31,7 @@ const storage = new Storage({
 
 const increment = firebase.firestore.FieldValue.increment(1);
 
+
 const bucketName = "esocr-app"
 
 const mul = multer({
@@ -145,7 +146,7 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
         }
 
         ocrResponse = processResponse(ocrResponse)
-
+        ocrResponse['processedAt'] = firebase.firestore.FieldValue.serverTimestamp()
 
         ocrResponse['uploadedFile'] = useNanonets ? ocrResponse["uploadedFile"] : `${req.file.originalname}`
         console.log(ocrResponse)
@@ -253,7 +254,9 @@ app.get("/ocr", async (req, res) => {
         }
         let ocrArray;
 
-        const ocrDocs = await db.collection("users").doc(uid).collection("ocr").get()
+        const ocrDocs = await db.collection("users").doc(uid).collection("ocr")
+            .orderBy("processedAt", "desc")
+            .get()
 
         ocrArray = ocrDocs.docs.map(ocrDoc => ocrDoc.data())
 
@@ -269,10 +272,6 @@ app.get("/ocr", async (req, res) => {
 
 });
 
-
-app.get('/debug-sentry', function mainHandler(req, res) {
-    throw new Error('This is an test error!');
-});
 
 app.use(Sentry.Handlers.errorHandler());
 
