@@ -15,6 +15,15 @@ export default {
                     "ocr_text": 'Treejoy HealthCare'//Value
                 },
                 {
+                    "label": "provider.languagePreference",//firstName
+                    "xmin": 895,
+                    "ymin": 846,
+                    "xmax": 1021,
+                    "ymax": 879,
+                    "score": 1,
+                    "ocr_text": 'English'//Value
+                },
+                {
                     "label": "provider.name",
                     "xmin": 895,
                     "ymin": 846,
