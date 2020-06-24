@@ -42,13 +42,22 @@ export default {
                     "ocr_text": "1417960428"
                 },
                 {
-                    "label": "provider.address",
+                    "label": "provider.address.line1",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
                     "ymax": 879,
                     "score": 1,
-                    "ocr_text": "Gachibowli"
+                    "ocr_text": "Flat No 402, Gachibowli"
+                },
+                {
+                    "label": "provider.address.line2",
+                    "xmin": 895,
+                    "ymin": 846,
+                    "xmax": 1021,
+                    "ymax": 879,
+                    "score": 1,
+                    "ocr_text": "Hyderabad"
                 },
                 {
                     "label": "provider.city",
@@ -177,13 +186,22 @@ export default {
                     "ocr_text": "English"
                 },
                 {
-                    "label": "patient.shippingAddress.address",
+                    "label": "patient.shippingAddress.address.line1",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
                     "ymax": 879,
                     "score": 1,
-                    "ocr_text": "Gachibowli"
+                    "ocr_text": "Flat No 402, Gachibowli"
+                },
+                {
+                    "label": "patient.shippingAddress.address.line2",
+                    "xmin": 895,
+                    "ymin": 846,
+                    "xmax": 1021,
+                    "ymax": 879,
+                    "score": 1,
+                    "ocr_text": "Hyderabad"
                 },
                 {
                     "label": "patient.shippingAddress.city",
@@ -213,13 +231,22 @@ export default {
                     "ocr_text": 500006
                 },
                 {
-                    "label": "patient.billingAddress.address",
+                    "label": "patient.billingAddress.address.line1",
                     "xmin": 895,
                     "ymin": 846,
                     "xmax": 1021,
                     "ymax": 879,
                     "score": 1,
-                    "ocr_text": "Gachibowli"
+                    "ocr_text": "Flat No 402, Gachibowli"
+                },
+                {
+                    "label": "patient.shippingAddress.address.line2",
+                    "xmin": 895,
+                    "ymin": 846,
+                    "xmax": 1021,
+                    "ymax": 879,
+                    "score": 1,
+                    "ocr_text": "Hyderabad"
                 },
 
                 {
