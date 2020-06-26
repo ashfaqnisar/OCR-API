@@ -129,6 +129,7 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
             res.status(400).json({code: 400, message: `No, user present with the uid ${uid}`})
         }
 
+
         let ocrResponse = response
 
 
@@ -156,14 +157,13 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
         }
 
         ocrResponse = processResponse(ocrResponse)
-        ocrResponse['processedAt'] = firebase.firestore.FieldValue.serverTimestamp()
+        ocrResponse['processedAt'] = new Date().toISOString()
 
         ocrResponse['uploadedFile'] = useNanonets ? ocrResponse["uploadedFile"] : `${req.file.originalname}`
+
+        ocrResponse['gcsFile'] = ocrResponse["gcsFile"] + path.extname(req.file.originalname)
+
         console.log(ocrResponse)
-
-        let gcsFileName = ocrResponse["fileId"] + path.extname(req.file.originalname)
-
-        ocrResponse['gcsFile'] = gcsFileName
 
         const statsRef = db.collection("--stats--").doc("ocr");
         const userOCRStatsRef = db.collection("users").doc(uid.toString()).collection('info').doc("ocr");
@@ -180,7 +180,7 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
         const ocr = await ocrRef.get()
         res.status(200).json(ocr.data())
 
-        const file = bucket.file(`files/${uid}/${gcsFileName}`);
+        const file = bucket.file(`files/${uid}/${ocrResponse['gcsFile']}`);
 
 
         const blobStream = file.createWriteStream({
@@ -200,6 +200,7 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
 
             // Make the image public to the web (since we'll be displaying it in browser)
             file.makePublic().then(() => {
+                ocrRef.update({gcsFileLink: publicUrl})
                 console.log(`Image public URL: ${publicUrl}`);
             });
         });
