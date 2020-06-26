@@ -6,12 +6,12 @@ export const processResponse = (response) => {
     data["prediction"] = {}
     response.result[0].prediction.map(prediction => {
         if (prediction.label === 'provider.area' || prediction.label === 'patient.shippingAddress.area' || prediction.label === 'patient.billingAddress.area') {
-            const label = prediction.label.replace('.area', '')
+            const label = prediction.label.replace('.area','')
             const area = prediction.ocr_text.split(",")
             data["prediction"] = {
-                [`${label}.city`]: area[0],
-                [`${label}.state`]: area[1],
-                [`${label}.zip`]: area[2],
+                [`${label}.city`]: area[0].trim(),
+                [`${label}.state`]: area[1].trim(),
+                [`${label}.zip`]: area[2].trim(),
                 ...data["prediction"]
             }
         } else {
