@@ -157,11 +157,13 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
         }
 
         ocrResponse = processResponse(ocrResponse)
-        ocrResponse['processedAt'] = firebase.firestore.FieldValue.serverTimestamp().toDate()
+        ocrResponse['processedAt'] = new Date().toISOString()
 
         ocrResponse['uploadedFile'] = useNanonets ? ocrResponse["uploadedFile"] : `${req.file.originalname}`
 
         ocrResponse['gcsFile'] = ocrResponse["gcsFile"] + path.extname(req.file.originalname)
+
+        console.log(ocrResponse)
 
         const statsRef = db.collection("--stats--").doc("ocr");
         const userOCRStatsRef = db.collection("users").doc(uid.toString()).collection('info').doc("ocr");
@@ -178,7 +180,7 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
         const ocr = await ocrRef.get()
         res.status(200).json(ocr.data())
 
-        const file = bucket.file(`files/${uid}/${gcsFileName}`);
+        const file = bucket.file(`files/${uid}/${ocrResponse['gcsFile']}`);
 
 
         const blobStream = file.createWriteStream({
