@@ -29,7 +29,7 @@ export default {
                     "ocr_text": "9"
                 }, {
                     "label": "provider.NPI.4",
-                    "ocr_text": "1417960428"
+                    "ocr_text": "5"
                 }, {
                     "label": "provider.NPI.5",
                     "ocr_text": "6"
