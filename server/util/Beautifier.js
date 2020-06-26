@@ -6,7 +6,7 @@ export const processResponse = (response) => {
     data["prediction"] = {}
     response.result[0].prediction.map(prediction => {
         if (prediction.label === 'provider.area' || prediction.label === 'patient.shippingAddress.area' || prediction.label === 'patient.billingAddress.area') {
-            const label = prediction.label.replace('.area', '')
+            const label = prediction.label.replace('.area','')
             const area = prediction.ocr_text.split(",")
             data["prediction"] = {
                 [`${label}.city`]: area[0].trim(),
@@ -15,7 +15,7 @@ export const processResponse = (response) => {
                 ...data["prediction"]
             }
         } else {
-            data["prediction"] = {[prediction.label]: prediction.ocr_text.trim(), ...data["prediction"]}
+            data["prediction"] = {[prediction.label]: prediction.ocr_text, ...data["prediction"]}
         }
     })
     data["prediction"] = dot.object(data["prediction"])

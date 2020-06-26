@@ -195,10 +195,8 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
         });
 
         blobStream.on("finish", () => {
-            // The public URL can be used to directly access the file via HTTP.
             const publicUrl = `https://storage.googleapis.com/${bucket.name}/${file.name}`;
 
-            // Make the image public to the web (since we'll be displaying it in browser)
             file.makePublic().then(() => {
                 ocrRef.update({gcsFileLink: publicUrl})
                 console.log(`Image public URL: ${publicUrl}`);
