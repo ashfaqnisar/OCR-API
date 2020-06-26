@@ -110,7 +110,7 @@ export default {
                 },
                 {
                     "label": "patient.shippingAddress.area",
-                    "ocr_text": "Hyderabad"
+                    "ocr_text": "Hyderabad,Telangana,500006"
                 },
 
                 {
@@ -123,7 +123,7 @@ export default {
                 },
                 {
                     "label": "patient.billingAddress.area",
-                    "ocr_text": "Hyderabad"
+                    "ocr_text": "Hyderabad,Telangana,500006"
                 },
                 {
                     "label": "patient.isHispanicLatinoOrigin",
