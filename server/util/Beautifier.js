@@ -8,6 +8,6 @@ export const processResponse = (response) => {
         data["prediction"] = {[prediction.label]: prediction.ocr_text, ...data["prediction"]}
     })
     data["prediction"] = dot.object(data["prediction"])
-    data["fileId"] = response.result[0].filepath.split("/")[3].split(".")[0]
+    data["gcsFile"] = response.result[0].filepath.split("/")[3].split(".")[0]
     return data
 }

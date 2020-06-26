@@ -129,6 +129,7 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
             res.status(400).json({code: 400, message: `No, user present with the uid ${uid}`})
         }
 
+
         let ocrResponse = response
 
 
@@ -156,14 +157,11 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
         }
 
         ocrResponse = processResponse(ocrResponse)
-        ocrResponse['processedAt'] = firebase.firestore.FieldValue.serverTimestamp()
+        ocrResponse['processedAt'] = firebase.firestore.FieldValue.serverTimestamp().toDate()
 
         ocrResponse['uploadedFile'] = useNanonets ? ocrResponse["uploadedFile"] : `${req.file.originalname}`
-        console.log(ocrResponse)
 
-        let gcsFileName = ocrResponse["fileId"] + path.extname(req.file.originalname)
-
-        ocrResponse['gcsFile'] = gcsFileName
+        ocrResponse['gcsFile'] = ocrResponse["gcsFile"] + path.extname(req.file.originalname)
 
         const statsRef = db.collection("--stats--").doc("ocr");
         const userOCRStatsRef = db.collection("users").doc(uid.toString()).collection('info').doc("ocr");
@@ -200,6 +198,7 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
 
             // Make the image public to the web (since we'll be displaying it in browser)
             file.makePublic().then(() => {
+                ocrRef.update({gcsFileLink: publicUrl})
                 console.log(`Image public URL: ${publicUrl}`);
             });
         });
