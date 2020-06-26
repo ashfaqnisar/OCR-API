@@ -282,6 +282,33 @@ app.get("/ocr", async (req, res) => {
 
 });
 
+app.get("/users/:uid/stats", async (req, res) => {
+    try {
+        const {uid} = req.params;
+        if (!uid) {
+            res.status(400).json({code: 400, message: "Please,provide the uid with the request"})
+            return
+        }
+        const user = await db.collection('users').doc(uid.toString()).get()
+        if (!user.exists) {
+            res.status(400).json({code: 400, message: `No, user present with the uid ${uid}`})
+            return
+        }
+
+        const userStats = await db.collection("users").doc(uid).collection("info").doc("ocr")
+            .get()
+
+        res.status(200).send(userStats.data());
+
+    } catch (err) {
+        const error = {
+            code: err.code || 500,
+            message: err.message || err.status,
+        }
+        res.status(err.code || 500).json(error);
+    }
+
+});
 
 app.use(Sentry.Handlers.errorHandler());
 
