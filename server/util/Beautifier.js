@@ -2,11 +2,10 @@ import dot from 'dot-object'
 
 export const processResponse = (response) => {
     let data = {};
-    const areas = ["provider.area", "patient.shippingAddress.area", "patient.billingAddress.area"]
     data["uploadedFile"] = response.result[0].input
     data["prediction"] = {}
     response.result[0].prediction.map(prediction => {
-        if (areas.includes(prediction.label)) {
+        if (prediction.label === 'provider.area' || prediction.label === 'patient.shippingAddress.area' || prediction.label === 'patient.billingAddress.area') {
             const label = prediction.label.replace('.area', '')
             const area = prediction.ocr_text.split(",")
             data["prediction"] = {
@@ -20,6 +19,7 @@ export const processResponse = (response) => {
         }
     })
     data["prediction"] = dot.object(data["prediction"])
+    data["prediction"]["provider"]["NPI"] = Number(data.prediction.provider.NPI.join(''))
     data["gcsFile"] = response.result[0].filepath.split("/")[3].split(".")[0]
     return data
 }
