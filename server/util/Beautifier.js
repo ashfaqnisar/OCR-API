@@ -9,13 +9,13 @@ export const processResponse = (response) => {
             const label = prediction.label.replace('.area', '')
             const area = prediction.ocr_text.split(",")
             data["prediction"] = {
-                [`${label}.city`]: area[0],
-                [`${label}.state`]: area[1],
-                [`${label}.zip`]: area[2],
+                [`${label}.city`]: area[0].trim(),
+                [`${label}.state`]: area[1].trim(),
+                [`${label}.zip`]: area[2].trim(),
                 ...data["prediction"]
             }
         } else {
-            data["prediction"] = {[prediction.label]: prediction.ocr_text, ...data["prediction"]}
+            data["prediction"] = {[prediction.label]: prediction.ocr_text.trim(), ...data["prediction"]}
         }
     })
     data["prediction"] = dot.object(data["prediction"])
