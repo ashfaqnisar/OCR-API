@@ -9,7 +9,7 @@ export default {
                     "label": "provider.healthCare",//firstName
                     "ocr_text": 'Treejoy HealthCare'//Value
                 },
-                
+
                 {
                     "label": "provider.name",
                     "ocr_text": 'Vamshi'
@@ -118,8 +118,8 @@ export default {
                     "ocr_text": "Flat No 402, Gachibowli"
                 },
                 {
-                    "label": "patient.shippingAddress.line2",
-                    "ocr_text": "Hyderabad"
+                    "label": "patient.billingAddress.line2",
+                    "ocr_text": "Hyderabad, Telangana"
                 },
                 {
                     "label": "patient.billingAddress.area",
