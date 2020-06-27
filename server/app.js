@@ -111,6 +111,34 @@ app.get("/users/:uid", async (req, res) => {
     }
 
 });
+app.get("/users/:uid/stats", async (req, res) => {
+    try {
+        const {uid} = req.params;
+        if (!uid) {
+            res.status(400).json({code: 400, message: "Please,provide the uid with the request"})
+            return
+        }
+        const user = await db.collection('users').doc(uid.toString()).get()
+        if (!user.exists) {
+            res.status(400).json({code: 400, message: `No, user present with the uid ${uid}`})
+            return
+        }
+
+        const userStats = await db.collection("users").doc(uid).collection("info").doc("ocr")
+            .get()
+
+        res.status(200).send(userStats.data());
+
+    } catch (err) {
+        const error = {
+            code: err.code || 500,
+            message: err.message || err.status,
+        }
+        res.status(err.code || 500).json(error);
+    }
+
+});
+
 
 app.post("/ocr", mul.single("file"), async (req, res, next) => {
     try {
@@ -280,12 +308,15 @@ app.get("/ocr", async (req, res) => {
     }
 
 });
-
-app.get("/users/:uid/stats", async (req, res) => {
+app.put("/ocr/:ocrId", async (req, res) => {
     try {
-        const {uid} = req.params;
-        if (!uid) {
-            res.status(400).json({code: 400, message: "Please,provide the uid with the request"})
+        const {ocrId} = req.params;
+        const {uid} = req.query;
+
+        const data = req.body
+
+        if (!(ocrId && uid)) {
+            res.status(400).json({code: 400, message: "Please,provide the uid & ocrId"})
             return
         }
         const user = await db.collection('users').doc(uid.toString()).get()
@@ -294,10 +325,21 @@ app.get("/users/:uid/stats", async (req, res) => {
             return
         }
 
-        const userStats = await db.collection("users").doc(uid).collection("info").doc("ocr")
-            .get()
+        const ocrRef = db.collection("users").doc(uid).collection("ocr").doc(ocrId)
+        let ocr = await ocrRef.get()
+        if (!ocr.exists) {
+            const emptyError = {
+                code: 204,
+                message: `No, ocr available with ${uid}`
+            }
+            res.status(400).json(emptyError)
+            return
+        }
+        await ocrRef.update(data)
 
-        res.status(200).send(userStats.data());
+        ocr = await ocrRef.get()
+
+        res.status(200).send(ocr.data());
 
     } catch (err) {
         const error = {
@@ -308,6 +350,7 @@ app.get("/users/:uid/stats", async (req, res) => {
     }
 
 });
+
 
 app.use(Sentry.Handlers.errorHandler());
 
