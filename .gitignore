@@ -108,3 +108,5 @@ dist
 /.idea
 
 dist-server/
+
+data/
