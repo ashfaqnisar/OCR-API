@@ -5,14 +5,18 @@ import cors from 'cors';
 import firebase, {db} from './firebase'
 import * as Sentry from '@sentry/node';
 import {Storage} from '@google-cloud/storage';
-import multer, {memoryStorage} from "multer";
+import multer from "multer";
 import response from './response';
 import axios from 'axios'
 import {processResponse} from "./util/Beautifier";
 import fs from 'fs';
+import crypto from 'crypto';
+import {promisify} from 'util'
+import FormData from 'form-data'
 
 
 const app = express();
+const unlinkAsync = promisify(fs.unlink)
 
 function getEnvironment() {
     if (process.env.NODE_ENV === 'development') {
@@ -44,12 +48,24 @@ const increment = firebase.firestore.FieldValue.increment(1);
 
 const bucketName = "esocr-app"
 
+const mulStorage = multer.diskStorage({
+    destination: 'data/',
+    filename(req, file, callback) {
+        crypto.pseudoRandomBytes(16, function (err, raw) {
+            if (err) return callback(err);
+
+            callback(null, raw.toString('hex') + path.extname(file.originalname));
+        });
+    },
+
+});
+
 const mul = multer({
-    storage: memoryStorage(),
+    storage: mulStorage,
     limits: {
         fileSize: 10 * 1024 * 1024
     }
-});
+})
 
 const bucket = storage.bucket(bucketName)
 
@@ -139,9 +155,85 @@ app.get("/users/:uid/stats", async (req, res) => {
 
 });
 
+app.post("/esocr", mul.single("file"), async (req, res, next) => {
+    try {
+        // useNanonets = true
+        if (!req.file) {
+            res.status(400).json({code: 400, message: 'Please, provide an file with the request '})
+            return
+        }
+
+
+        // let ocrResponse = response
+
+        const formData = new FormData()
+        formData.append('modelId', '4ed6dcd3-d1e4-424d-9780-e4acfde58c78')
+        formData.append('file', fs.createReadStream(req.file.path))
+        /*const nanonetsResponse = await axios({
+            method: 'post',
+            url: "https://app.nanonets.com/api/v2/OCR/Model/4ed6dcd3-d1e4-424d-9780-e4acfde58c78/LabelFile/",
+            data: formData,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Basic ' + Buffer.from('-w7X4B2isVUQ1BRAFbuypR8lED41DlD5' + ':').toString('base64')
+            }
+        })*/
+        const nanonetsResponse = await axios.post('https://app.nanonets.com/api/v2/OCR/Model/4ed6dcd3-d1e4-424d-9780-e4acfde58c78/LabelFile/',
+            formData, {
+                headers: {
+                    ...formData.getHeaders(),
+                    'Authorization': 'Basic ' + Buffer.from('-w7X4B2isVUQ1BRAFbuypR8lED41DlD5' + ':').toString('base64')
+                }
+            })
+
+        res.status(200).json(nanonetsResponse.data)
+
+
+        /*const nanonetsResponse = await axios({
+            method: 'post',
+            url: "https://app.nanonets.com/api/v2/OCR/Model/4ed6dcd3-d1e4-424d-9780-e4acfde58c78/LabelFile/",
+            formData: form_data,
+            headers: {
+                'Authorization': 'Basic ' + Buffer.from('-w7X4B2isVUQ1BRAFbuypR8lED41DlD5' + ':').toString('base64')
+            }
+        }).then(data => {
+            console.log(data)
+            res.json(nanonetsResponse.data)
+
+        }).catch(err => {
+            console.error(err);
+        })*!/*/
+
+
+        /*const form_data = {'modelId': '4ed6dcd3-d1e4-424d-9780-e4acfde58c78', file: fs.createReadStream(req.file)}
+        const nanonetsResponse = await axios({
+            method: 'post',
+            url: "https://app.nanonets.com/api/v2/OCR/Model/4ed6dcd3-d1e4-424d-9780-e4acfde58c78/LabelFile/",
+            formData: form_data,
+            headers: {
+                'Authorization': 'Basic ' + Buffer.from('4VMF47XOwlzN09mP-TQSe8boYxlHiOVr' + ':').toString('base64')
+            }
+        }) catch (e) {
+        const error = {
+            code: e.code || 500,
+            message: e.message || e.status
+        }
+        console.log(error)
+        res.status(e.code || 500).json(error)
+        return*/
+    } catch (err) {
+        console.log(err)
+        const error = {
+            code: err.code || 500,
+            message: err.message || err.status,
+        }
+        res.status(err.code || 500).json(error);
+    }
+})
 
 app.post("/ocr", mul.single("file"), async (req, res, next) => {
     try {
+        useNanonets = false
         const {uid} = req.query;
         if (!req.file) {
             res.status(400).json({code: 400, message: 'Please, provide an file with the request '})
@@ -166,10 +258,10 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
                 const form_data = {file: fs.createReadStream(req.file)}
                 const nanonetsResponse = axios({
                     method: 'post',
-                    url: "https://app.nanonets.com/api/v2/OCR/Model/fb1a831a-f45d-4809-b212-12c311e2e75f/LabelFile/",
+                    url: "https://app.nanonets.com/api/v2/OCR/Model/4VMF47XOwlzN09mP-TQSe8boYxlHiOVr/LabelFile/",
                     formData: form_data,
                     headers: {
-                        'Authorization': 'Basic ' + Buffer.from('hc-nkSevYsWFvfuTkmx5GLhGpQBc8DIy' + ':').toString('base64')
+                        'Authorization': 'Basic ' + Buffer.from('' + ':').toString('base64')
                     }
                 })
                 ocrResponse = nanonetsResponse.data
