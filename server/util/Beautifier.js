@@ -2,7 +2,6 @@ import dot from 'dot-object'
 
 export const processResponse = (response) => {
     let data = {};
-    data["uploadedFile"] = response.result[0].input
     response.result[0].prediction.map(prediction => {
         if (prediction.label === 'provider.area' || prediction.label === 'patient.shippingAddress.area' || prediction.label === 'patient.billingAddress.area') {
             const label = prediction.label.replace('.area', '')
@@ -24,7 +23,6 @@ export const processResponse = (response) => {
 }
 export const beautifyResponse = (response) => {
     const data = {}
-    data["uploadedFile"] = response.result[0].input
     response.result[0].prediction.map(prediction => {
         if (prediction.label === 'provider.area' || prediction.label === 'patient.shippingAddress.area' || prediction.label === 'patient.billingAddress.area') {
             const label = prediction.label.replace('.area', '')
@@ -39,7 +37,7 @@ export const beautifyResponse = (response) => {
             data["prediction"] = {[prediction.label]: prediction.ocr_text, ...data["prediction"]}
         }
     })
-    data["id"] = response.result[0].request_file_id
+    data["id"] = response.result[0].id
     data["prediction"] = dot.object(data["prediction"])
     return data
 }

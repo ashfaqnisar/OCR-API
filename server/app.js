@@ -238,7 +238,7 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
         ocrResponse = processResponse(ocrResponse)
         ocrResponse['processedAt'] = new Date().toISOString()
 
-        ocrResponse['uploadedFile'] = useNanonets ? ocrResponse["uploadedFile"] : `${req.file.originalname}`
+        ocrResponse['uploadedFile'] = `${req.file.originalname}`
 
         ocrResponse['gcsFile'] = ocrResponse["gcsFile"] + path.extname(req.file.originalname)
 
@@ -498,6 +498,23 @@ app.post("/ocr/raw/beautify", mul.single("file"), async (req, res) => {
         ocrResponse = beautifyResponse(ocrResponse)
         res.status(200).json(ocrResponse)
 
+    } catch (err) {
+        console.log(err)
+        const error = {
+            code: err.code || 500,
+            message: err.message || err.status,
+        }
+        res.status(err.code || 500).json(error);
+    }
+})
+
+app.post("/test", mul.single("file"), async (req, res) => {
+    try {
+        if (!req.file) {
+            res.status(400).json({code: 400, message: 'Please, provide an file with the request '})
+            return
+        }
+        res.json(req.file)
     } catch (err) {
         console.log(err)
         const error = {
