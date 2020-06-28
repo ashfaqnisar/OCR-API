@@ -240,7 +240,7 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
 
         ocrResponse['uploadedFile'] = `${req.file.originalname}`
 
-        ocrResponse['gcsFile'] = ocrResponse["gcsFile"] + path.extname(req.file.originalname)
+        ocrResponse['fileId'] = ocrResponse["fileId"] + path.extname(req.file.originalname)
 
         console.log(ocrResponse)
 
@@ -259,30 +259,14 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
         const ocr = await ocrRef.get()
         res.status(200).json(ocr.data())
 
-        const file = bucket.file(`files/${uid}/${ocrResponse['gcsFile']}`);
-
-
-        const blobStream = file.createWriteStream({
+        storage.bucket(bucketName).upload(req.file.path, {
+            destination: `files/${uid}/${ocrResponse['gcsFile']}`,
             metadata: {
                 contentType: req.file.mimetype
             }
-        });
-
-        blobStream.on("error", err => {
-            res.status(err.code || 500).json({code: err.code, message: err.message || err})
-            next(err);
-        });
-
-        blobStream.on("finish", () => {
-            const publicUrl = `https://storage.googleapis.com/${bucket.name}/${file.name}`;
-
-            file.makePublic().then(() => {
-                ocrRef.update({gcsFileLink: publicUrl})
-                console.log(`Image public URL: ${publicUrl}`);
-            });
-        });
-
-        blobStream.end(req.file.buffer);
+        }).then(() => {
+            ocrRef.update({"fileLink": `https://storage.googleapis.com/esocr-app/files/${uid}/${ocrResponse['fileId']}`});
+        })
 
     } catch (err) {
         const error = {
@@ -508,22 +492,6 @@ app.post("/ocr/raw/beautify", mul.single("file"), async (req, res) => {
     }
 })
 
-app.post("/test", mul.single("file"), async (req, res) => {
-    try {
-        if (!req.file) {
-            res.status(400).json({code: 400, message: 'Please, provide an file with the request '})
-            return
-        }
-        res.json(req.file)
-    } catch (err) {
-        console.log(err)
-        const error = {
-            code: err.code || 500,
-            message: err.message || err.status,
-        }
-        res.status(err.code || 500).json(error);
-    }
-})
 
 
 app.use(Sentry.Handlers.errorHandler());
