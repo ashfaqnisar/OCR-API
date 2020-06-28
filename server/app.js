@@ -153,7 +153,7 @@ app.delete("/users/:uid", async (req, res) => {
         batch.set(statsRef, {count: decrement}, {merge: true})
 
         batch.commit()
-            .then(() => res.status(200).send(`Deleted ${uid} successfully`))
+            .then(() => res.status(200).send(`Deleted ${uid} user successfully`))
 
 
     } catch (err) {
@@ -407,7 +407,7 @@ app.delete("/ocr/:ocrId", async (req, res) => {
         batch.set(userOCRStatsRef, {count: decrement}, {merge: true});
         batch.set(statsRef, {count: decrement}, {merge: true});
         batch.commit()
-            .then(() => res.status(200).send(`Deleted ${ocrId} successfully`))
+            .then(() => res.status(200).send(`Deleted ${ocrId} ocr form successfully`))
 
     } catch (err) {
         const error = {
