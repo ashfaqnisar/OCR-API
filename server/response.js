@@ -23,15 +23,7 @@ export default {
                 "score": 1,
                 "ocr_text": "Vamshi"
             },
-            {
-                "label": "provider.NPI.1",
-                "xmin": 319,
-                "ymin": 666,
-                "xmax": 395,
-                "ymax": 729,
-                "score": 1,
-                "ocr_text": "2"
-            },
+
             {
                 "label": "provider.NPI.2",
                 "xmin": 456,
@@ -78,6 +70,15 @@ export default {
                 "ocr_text": "6"
             },
             {
+                "label": "provider.NPI.4",
+                "xmin": 766,
+                "ymin": 676,
+                "xmax": 793,
+                "ymax": 719,
+                "score": 1,
+                "ocr_text": "5  "
+            },
+            {
                 "label": "provider.NPI.6",
                 "xmin": 868,
                 "ymin": 675,
@@ -94,6 +95,24 @@ export default {
                 "ymax": 719,
                 "score": 0.9972855,
                 "ocr_text": "8"
+            },
+            {
+                "label": "provider.NPI.8",
+                "xmin": 970,
+                "ymin": 676,
+                "xmax": 997,
+                "ymax": 719,
+                "score": 0.9972855,
+                "ocr_text": "8"
+            },
+            {
+                "label": "provider.NPI.9",
+                "xmin": 970,
+                "ymin": 676,
+                "xmax": 997,
+                "ymax": 719,
+                "score": 0.9972855,
+                "ocr_text": "0"
             },
             {
                 "label": "provider.address",
@@ -130,6 +149,15 @@ export default {
                 "ymax": 1164,
                 "score": 1,
                 "ocr_text": "(697)"
+            },
+            {
+                "label": "order.icdCode",
+                "xmin": 414,
+                "ymin": 1360,
+                "xmax": 1043,
+                "ymax": 1396,
+                "score": 1,
+                "ocr_text": "Z28"
             },
             {
                 "label": "patient.number",
