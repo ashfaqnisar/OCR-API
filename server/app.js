@@ -10,13 +10,11 @@ import response from './response';
 import axios from 'axios'
 import {beautifyResponse, processResponse} from "./util/Beautifier";
 import fs from 'fs';
-import {promisify} from 'util'
 import FormData from 'form-data'
 import {v4 as uuidv4} from 'uuid'
 
 
 const app = express();
-const unlinkAsync = promisify(fs.unlink)
 
 function getEnvironment() {
     if (process.env.NODE_ENV === 'development') {
@@ -64,7 +62,6 @@ const mul = multer({
     }
 })
 
-const bucket = storage.bucket(bucketName)
 
 let useNanonets = false;
 
@@ -156,7 +153,7 @@ app.delete("/users/:uid", async (req, res) => {
         batch.set(statsRef, {count: decrement}, {merge: true})
 
         batch.commit()
-            .then(() => res.status(200).send(`Deleted ${uid} successfully`))
+            .then(() => res.status(200).send(`Deleted ${uid} user successfully`))
 
 
     } catch (err) {
@@ -260,7 +257,7 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
         res.status(200).json(ocr.data())
 
         storage.bucket(bucketName).upload(req.file.path, {
-            destination: `files/${uid}/${ocrResponse['gcsFile']}`,
+            destination: `files/${uid}/${ocrResponse['fileId']}`,
             metadata: {
                 contentType: req.file.mimetype
             }
@@ -410,7 +407,7 @@ app.delete("/ocr/:ocrId", async (req, res) => {
         batch.set(userOCRStatsRef, {count: decrement}, {merge: true});
         batch.set(statsRef, {count: decrement}, {merge: true});
         batch.commit()
-            .then(() => res.status(200).send(`Deleted ${ocrId} successfully`))
+            .then(() => res.status(200).send(`Deleted ${ocrId} ocr form successfully`))
 
     } catch (err) {
         const error = {
