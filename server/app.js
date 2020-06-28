@@ -103,6 +103,20 @@ app.post("/users", async (req, res) => {
         res.status(err.code || 500).json(error);
     }
 })
+app.get("/users", async (req, res) => {
+    try {
+        let users = await db.collection("users").orderBy("uid", "asc").get()
+        users = users.docs.map(user => user.data())
+        res.status(200).send(users);
+    } catch (err) {
+        const error = {
+            code: err.code || 500,
+            message: err.message || err.status,
+        }
+        res.status(err.code || 500).json(error);
+    }
+
+});
 app.get("/users/:uid", async (req, res) => {
     try {
         const {uid} = req.params;
