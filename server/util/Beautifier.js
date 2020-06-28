@@ -18,7 +18,7 @@ export const processResponse = (response) => {
     })
     data["prediction"] = dot.object(data["prediction"])
     data["prediction"]["provider"]["NPI"] = data.prediction.provider.NPI.join('')
-    data["gcsFile"] = response.result[0].filepath.split("/")[3].split(".")[0]
+    data["fileId"] = response.result[0].filepath.split("/")[3].split(".")[0]
     return data
 }
 export const beautifyResponse = (response) => {
