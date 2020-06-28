@@ -10,13 +10,11 @@ import response from './response';
 import axios from 'axios'
 import {beautifyResponse, processResponse} from "./util/Beautifier";
 import fs from 'fs';
-import {promisify} from 'util'
 import FormData from 'form-data'
 import {v4 as uuidv4} from 'uuid'
 
 
 const app = express();
-const unlinkAsync = promisify(fs.unlink)
 
 function getEnvironment() {
     if (process.env.NODE_ENV === 'development') {
@@ -64,7 +62,6 @@ const mul = multer({
     }
 })
 
-const bucket = storage.bucket(bucketName)
 
 let useNanonets = false;
 
