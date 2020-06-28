@@ -257,7 +257,7 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
         res.status(200).json(ocr.data())
 
         storage.bucket(bucketName).upload(req.file.path, {
-            destination: `files/${uid}/${ocrResponse['gcsFile']}`,
+            destination: `files/${uid}/${ocrResponse['fileId']}`,
             metadata: {
                 contentType: req.file.mimetype
             }
