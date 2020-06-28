@@ -153,7 +153,7 @@ app.delete("/users/:uid", async (req, res) => {
         const batch = db.batch();
 
         batch.delete(userRef)
-        batch.set(statsRef, {count: decrement})
+        batch.set(statsRef, {count: decrement}, {merge: true})
 
         batch.commit()
             .then(() => res.status(200).send(`Deleted ${uid} successfully`))
