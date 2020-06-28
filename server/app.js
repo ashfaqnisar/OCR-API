@@ -8,11 +8,11 @@ import {Storage} from '@google-cloud/storage';
 import multer from "multer";
 import response from './response';
 import axios from 'axios'
-import {processResponse} from "./util/Beautifier";
+import {beautifyResponse, processResponse} from "./util/Beautifier";
 import fs from 'fs';
-import crypto from 'crypto';
 import {promisify} from 'util'
 import FormData from 'form-data'
+import {v4 as uuidv4} from 'uuid'
 
 
 const app = express();
@@ -44,6 +44,7 @@ const storage = new Storage({
 });
 
 const increment = firebase.firestore.FieldValue.increment(1);
+const decrement = firebase.firestore.FieldValue.increment(-1);
 
 
 const bucketName = "esocr-app"
@@ -51,11 +52,7 @@ const bucketName = "esocr-app"
 const mulStorage = multer.diskStorage({
     destination: 'data/',
     filename(req, file, callback) {
-        crypto.pseudoRandomBytes(16, function (err, raw) {
-            if (err) return callback(err);
-
-            callback(null, raw.toString('hex') + path.extname(file.originalname));
-        });
+        callback(null, uuidv4() + path.extname(file.originalname));
     },
 
 });
@@ -72,22 +69,27 @@ const bucket = storage.bucket(bucketName)
 let useNanonets = false;
 
 app.get('/', (req, res) => {
-    res.status(200).send(`OCR API`)
+    res.status(200).send(`ESOCR API`)
 
 });
 
 app.post("/users", async (req, res) => {
     try {
-        const {name, email, uid} = req.body;
+        const {name, email} = req.body;
+        if (!name || !email) return res.status(400).json({
+            code: 400,
+            message: 'Please provide the name and email with the request'
+        })
         const userData = {
-            name, email, uid
+            name, email
         };
 
-        const statsRef = db.collection("--stats--").doc("customers");
+        const statsRef = db.collection("--stats--").doc("users");
         const batch = db.batch();
 
-        const userRef = await db.collection("users").doc(uid);
-        batch.set(userRef, userData,);
+        const userRef = await db.collection("users").add({});
+
+        batch.set(userRef, {...userData, uid: userRef.id});
         batch.set(statsRef, {count: increment}, {merge: true});
         await batch.commit()
 
@@ -102,6 +104,20 @@ app.post("/users", async (req, res) => {
         res.status(err.code || 500).json(error);
     }
 })
+app.get("/users", async (req, res) => {
+    try {
+        let users = await db.collection("users").orderBy("uid", "asc").get()
+        users = users.docs.map(user => user.data())
+        res.status(200).send(users);
+    } catch (err) {
+        const error = {
+            code: err.code || 500,
+            message: err.message || err.status,
+        }
+        res.status(err.code || 500).json(error);
+    }
+
+});
 app.get("/users/:uid", async (req, res) => {
     try {
         const {uid} = req.params;
@@ -127,6 +143,32 @@ app.get("/users/:uid", async (req, res) => {
     }
 
 });
+app.delete("/users/:uid", async (req, res) => {
+    try {
+        const {uid} = req.params;
+
+        const userRef = db.collection("users").doc(uid.toString())
+        const statsRef = db.collection("--stats--").doc("users");
+
+        const batch = db.batch();
+
+        batch.delete(userRef)
+        batch.set(statsRef, {count: decrement}, {merge: true})
+
+        batch.commit()
+            .then(() => res.status(200).send(`Deleted ${uid} successfully`))
+
+
+    } catch (err) {
+        const error = {
+            code: err.code || 500,
+            message: err.message || err.status,
+        }
+        res.status(err.code || 500).json(error);
+    }
+
+});
+
 app.get("/users/:uid/stats", async (req, res) => {
     try {
         const {uid} = req.params;
@@ -155,85 +197,9 @@ app.get("/users/:uid/stats", async (req, res) => {
 
 });
 
-app.post("/esocr", mul.single("file"), async (req, res, next) => {
-    try {
-        // useNanonets = true
-        if (!req.file) {
-            res.status(400).json({code: 400, message: 'Please, provide an file with the request '})
-            return
-        }
-
-
-        // let ocrResponse = response
-
-        const formData = new FormData()
-        formData.append('modelId', '4ed6dcd3-d1e4-424d-9780-e4acfde58c78')
-        formData.append('file', fs.createReadStream(req.file.path))
-        /*const nanonetsResponse = await axios({
-            method: 'post',
-            url: "https://app.nanonets.com/api/v2/OCR/Model/4ed6dcd3-d1e4-424d-9780-e4acfde58c78/LabelFile/",
-            data: formData,
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': 'Basic ' + Buffer.from('-w7X4B2isVUQ1BRAFbuypR8lED41DlD5' + ':').toString('base64')
-            }
-        })*/
-        const nanonetsResponse = await axios.post('https://app.nanonets.com/api/v2/OCR/Model/4ed6dcd3-d1e4-424d-9780-e4acfde58c78/LabelFile/',
-            formData, {
-                headers: {
-                    ...formData.getHeaders(),
-                    'Authorization': 'Basic ' + Buffer.from('-w7X4B2isVUQ1BRAFbuypR8lED41DlD5' + ':').toString('base64')
-                }
-            })
-
-        res.status(200).json(nanonetsResponse.data)
-
-
-        /*const nanonetsResponse = await axios({
-            method: 'post',
-            url: "https://app.nanonets.com/api/v2/OCR/Model/4ed6dcd3-d1e4-424d-9780-e4acfde58c78/LabelFile/",
-            formData: form_data,
-            headers: {
-                'Authorization': 'Basic ' + Buffer.from('-w7X4B2isVUQ1BRAFbuypR8lED41DlD5' + ':').toString('base64')
-            }
-        }).then(data => {
-            console.log(data)
-            res.json(nanonetsResponse.data)
-
-        }).catch(err => {
-            console.error(err);
-        })*!/*/
-
-
-        /*const form_data = {'modelId': '4ed6dcd3-d1e4-424d-9780-e4acfde58c78', file: fs.createReadStream(req.file)}
-        const nanonetsResponse = await axios({
-            method: 'post',
-            url: "https://app.nanonets.com/api/v2/OCR/Model/4ed6dcd3-d1e4-424d-9780-e4acfde58c78/LabelFile/",
-            formData: form_data,
-            headers: {
-                'Authorization': 'Basic ' + Buffer.from('4VMF47XOwlzN09mP-TQSe8boYxlHiOVr' + ':').toString('base64')
-            }
-        }) catch (e) {
-        const error = {
-            code: e.code || 500,
-            message: e.message || e.status
-        }
-        console.log(error)
-        res.status(e.code || 500).json(error)
-        return*/
-    } catch (err) {
-        console.log(err)
-        const error = {
-            code: err.code || 500,
-            message: err.message || err.status,
-        }
-        res.status(err.code || 500).json(error);
-    }
-})
 
 app.post("/ocr", mul.single("file"), async (req, res, next) => {
     try {
-        useNanonets = false
         const {uid} = req.query;
         if (!req.file) {
             res.status(400).json({code: 400, message: 'Please, provide an file with the request '})
@@ -254,32 +220,25 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
 
 
         if (useNanonets) {
-            try {
-                const form_data = {file: fs.createReadStream(req.file)}
-                const nanonetsResponse = axios({
-                    method: 'post',
-                    url: "https://app.nanonets.com/api/v2/OCR/Model/4VMF47XOwlzN09mP-TQSe8boYxlHiOVr/LabelFile/",
-                    formData: form_data,
+            const formData = new FormData()
+            formData.append('modelId', '4ed6dcd3-d1e4-424d-9780-e4acfde58c78')
+            formData.append('file', fs.createReadStream(req.file.path))
+
+            const nanonetsResponse = await axios.post('https://app.nanonets.com/api/v2/OCR/Model/4ed6dcd3-d1e4-424d-9780-e4acfde58c78/LabelFile/',
+                formData, {
                     headers: {
-                        'Authorization': 'Basic ' + Buffer.from('' + ':').toString('base64')
+                        ...formData.getHeaders(),
+                        'Authorization': 'Basic ' + Buffer.from('-w7X4B2isVUQ1BRAFbuypR8lED41DlD5' + ':').toString('base64')
                     }
                 })
-                ocrResponse = nanonetsResponse.data
-            } catch (e) {
-                const error = {
-                    code: e.code || 500,
-                    message: e.message || e.status
-                }
-                console.log(error)
-                res.status(e.code || 500).json(error)
-                return
-            }
+            ocrResponse = nanonetsResponse.data
+
         }
 
         ocrResponse = processResponse(ocrResponse)
         ocrResponse['processedAt'] = new Date().toISOString()
 
-        ocrResponse['uploadedFile'] = useNanonets ? ocrResponse["uploadedFile"] : `${req.file.originalname}`
+        ocrResponse['uploadedFile'] = `${req.file.originalname}`
 
         ocrResponse['gcsFile'] = ocrResponse["gcsFile"] + path.extname(req.file.originalname)
 
@@ -333,6 +292,37 @@ app.post("/ocr", mul.single("file"), async (req, res, next) => {
         res.status(err.code || 500).json(error);
     }
 })
+app.get("/ocr", async (req, res) => {
+    try {
+        const {uid} = req.query;
+        if (!uid) {
+            res.status(400).json({code: 400, message: "Please,provide the uid with the request"})
+            return
+        }
+        const user = await db.collection('users').doc(uid.toString()).get()
+        if (!user.exists) {
+            res.status(400).json({code: 400, message: `No, user present with the uid ${uid}`})
+            return
+        }
+        let ocrArray;
+
+        const ocrDocs = await db.collection("users").doc(uid).collection("ocr")
+            .orderBy("processedAt", "desc")
+            .get()
+
+        ocrArray = ocrDocs.docs.map(ocrDoc => ocrDoc.data())
+
+        res.status(200).send(ocrArray);
+
+    } catch (err) {
+        const error = {
+            code: err.code || 500,
+            message: err.message || err.status,
+        }
+        res.status(err.code || 500).json(error);
+    }
+
+});
 app.get("/ocr/:ocrId", async (req, res) => {
     try {
         const {ocrId} = req.params;
@@ -359,37 +349,6 @@ app.get("/ocr/:ocrId", async (req, res) => {
             return
         }
         res.status(200).send(ocr.data());
-
-    } catch (err) {
-        const error = {
-            code: err.code || 500,
-            message: err.message || err.status,
-        }
-        res.status(err.code || 500).json(error);
-    }
-
-});
-app.get("/ocr", async (req, res) => {
-    try {
-        const {uid} = req.query;
-        if (!uid) {
-            res.status(400).json({code: 400, message: "Please,provide the uid with the request"})
-            return
-        }
-        const user = await db.collection('users').doc(uid.toString()).get()
-        if (!user.exists) {
-            res.status(400).json({code: 400, message: `No, user present with the uid ${uid}`})
-            return
-        }
-        let ocrArray;
-
-        const ocrDocs = await db.collection("users").doc(uid).collection("ocr")
-            .orderBy("processedAt", "desc")
-            .get()
-
-        ocrArray = ocrDocs.docs.map(ocrDoc => ocrDoc.data())
-
-        res.status(200).send(ocrArray);
 
     } catch (err) {
         const error = {
@@ -442,11 +401,134 @@ app.put("/ocr/:ocrId", async (req, res) => {
     }
 
 });
+app.delete("/ocr/:ocrId", async (req, res) => {
+    try {
+        const {ocrId} = req.params;
+        const {uid} = req.query;
+
+        if (!(ocrId && uid)) {
+            res.status(400).json({code: 400, message: "Please,provide the uid & ocrId"})
+            return
+        }
+        const user = await db.collection('users').doc(uid.toString()).get()
+        if (!user.exists) {
+            res.status(400).json({code: 400, message: `No, user present with the uid ${uid}`})
+            return
+        }
+
+        const ocrRef = db.collection("users").doc(uid).collection("ocr").doc(ocrId)
+        const statsRef = db.collection("--stats--").doc("ocr");
+        const userOCRStatsRef = db.collection("users").doc(uid.toString()).collection('info').doc("ocr");
+
+        const batch = db.batch();
+
+        batch.delete(ocrRef)
+        batch.set(userOCRStatsRef, {count: decrement}, {merge: true});
+        batch.set(statsRef, {count: decrement}, {merge: true});
+        batch.commit()
+            .then(() => res.status(200).send(`Deleted ${ocrId} successfully`))
+
+    } catch (err) {
+        const error = {
+            code: err.code || 500,
+            message: err.message || err.status,
+        }
+        res.status(err.code || 500).json(error);
+    }
+
+});
+
+
+app.post("/ocr/raw", mul.single("file"), async (req, res) => {
+    try {
+        if (!req.file) {
+            res.status(400).json({code: 400, message: 'Please, provide an file with the request '})
+            return
+        }
+        let ocrResponse = response
+
+        if (useNanonets) {
+            const formData = new FormData()
+            formData.append('modelId', '4ed6dcd3-d1e4-424d-9780-e4acfde58c78')
+            formData.append('file', fs.createReadStream(req.file.path))
+
+            const nanonetsResponse = await axios.post('https://app.nanonets.com/api/v2/OCR/Model/4ed6dcd3-d1e4-424d-9780-e4acfde58c78/LabelFile/',
+                formData, {
+                    headers: {
+                        ...formData.getHeaders(),
+                        'Authorization': 'Basic ' + Buffer.from('-w7X4B2isVUQ1BRAFbuypR8lED41DlD5' + ':').toString('base64')
+                    }
+                })
+            ocrResponse = nanonetsResponse.data
+        }
+
+        res.status(200).json(ocrResponse)
+
+    } catch (err) {
+        console.log(err)
+        const error = {
+            code: err.code || 500,
+            message: err.message || err.status,
+        }
+        res.status(err.code || 500).json(error);
+    }
+})
+app.post("/ocr/raw/beautify", mul.single("file"), async (req, res) => {
+    try {
+        if (!req.file) {
+            res.status(400).json({code: 400, message: 'Please, provide an file with the request '})
+            return
+        }
+        let ocrResponse = response
+
+        if (useNanonets) {
+            const formData = new FormData()
+            formData.append('modelId', '4ed6dcd3-d1e4-424d-9780-e4acfde58c78')
+            formData.append('file', fs.createReadStream(req.file.path))
+
+            const nanonetsResponse = await axios.post('https://app.nanonets.com/api/v2/OCR/Model/4ed6dcd3-d1e4-424d-9780-e4acfde58c78/LabelFile/',
+                formData, {
+                    headers: {
+                        ...formData.getHeaders(),
+                        'Authorization': 'Basic ' + Buffer.from('-w7X4B2isVUQ1BRAFbuypR8lED41DlD5' + ':').toString('base64')
+                    }
+                })
+            ocrResponse = nanonetsResponse.data
+        }
+        ocrResponse = beautifyResponse(ocrResponse)
+        res.status(200).json(ocrResponse)
+
+    } catch (err) {
+        console.log(err)
+        const error = {
+            code: err.code || 500,
+            message: err.message || err.status,
+        }
+        res.status(err.code || 500).json(error);
+    }
+})
+
+app.post("/test", mul.single("file"), async (req, res) => {
+    try {
+        if (!req.file) {
+            res.status(400).json({code: 400, message: 'Please, provide an file with the request '})
+            return
+        }
+        res.json(req.file)
+    } catch (err) {
+        console.log(err)
+        const error = {
+            code: err.code || 500,
+            message: err.message || err.status,
+        }
+        res.status(err.code || 500).json(error);
+    }
+})
 
 
 app.use(Sentry.Handlers.errorHandler());
 
-app.use(function onError(err, req, res, next) {
+app.use(function onError(err, req, res) {
     res.statusCode = 500;
     res.end(res.sentry + "\n" + err.message);
 });
