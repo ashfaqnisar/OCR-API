@@ -6,10 +6,10 @@
 <h3 align="center">Exact Sciences Optical Character Recognition API</h4>
 
 <p align="center">
-    <a href="https://github.com/ashfaqnisar/ESOCR/commits/master">
+    <a href="https://github.com/ashfaqnisar/esocr-api/commits/master">
     <img src="https://img.shields.io/github/last-commit/ashfaqnisar/esocr-api?style=flat-square&logo=github&logoColor=white"
          alt="GitHub last commit">
-   <a href="https://github.com/ashfaqnisar/ESOCR/pulls">
+   <a href="https://github.com/ashfaqnisar/esocr-api/pulls">
     <img src="https://img.shields.io/github/issues-pr/ashfaqnisar/esocr-api?style=flat-square&logo=github&logoColor=white"
          alt="GitHub pull requests">
       <a href="https://github.com/ashfaqnisar/esocr-api/pulls?q=is%3Apr+is%3Aclosed">
