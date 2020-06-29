@@ -64,63 +64,125 @@ As the exact sciences company **process thousands of the forms** every week rece
 
 ## Solution: 
 
-As Exact Sciences company already has an OCR system in place, we had to **build a system** which would be **more accurate** and **less time consuming** than the **present OCR  system**.  Most of the forms received by the company are **handwritten by the user**. So, we had to take that constraint in mind too. We were allowed to use the COTS(Commercially Off the Shelf  ) OCR solution but we had to **stay in the budget** and not go overboard.
+As Exact Sciences company already has an OCR system in place, we had to **build a system** which would be **more accurate** and **less time consuming** than the **present OCR  system**.  Most of the forms received by the company are **handwritten by the user**. So, we had to take that constraint in mind too. We were allowed to use the COTS(Commercially Off the Shelf  ) OCR solution but we had to **stay in the budget** and **not go overboard.**
+<br/>
 
-After making extensive research and **chatting with different COTS OCR solutions**, we were impressed with the **Nanonets OCR Solution**. As it was very simple and straightforward and they were using the **CRNN(Convolutional Recurrent Neural Network)** &  **DRAM (Deep Recurrent Attention Model)**  and many more to **create an OCR detection model**. Coming to the pricing, we would be **charged by the number of API calls made to the model.**
+After making extensive research and **chatting with different COTS OCR solutions**, we were impressed with the **<a href="https://nanonets.com/">Nanonets OCR Solution</a>**. As it was very simple and straightforward and they were using the **CRNN(Convolutional Recurrent Neural Network)** &  **DRAM (Deep Recurrent Attention Model)**  and many more to **create an OCR detection model**. Coming to the pricing, we would be **charged** by the number of **API calls made to the model.**
+<br/>
 
 We **created a model** in the nanonets but **in order to train the model**. We required a **dataset of images** and we were provided with two files(**Sample Form  & Blank form**). To process the model, we needed over **150  files** and **manually filling these forms** would have been a **very time-effective process**. 
 
 We built <a href="https://github.com/ashfaqnisar/ESOCR-DATASET-GENERATOR" target="_blank">**ESOCR Dataset Generator Repo**</a>,  which would **contain a script** which would take **data** from the **fake JSON** and place the **data over PSD** and **save the final output file**. In this manner, we were easily able to **generate around 150 images** for the dataset.
-
 Once, we **uploaded the images to the nanonets**, we started **annotating the images one by one manually** in nanonets. We then **started training the model**, once the **model was trained**. We were able to **predict the text** from the **uploaded image**.
 
-We built an <a href="https://github.com/ashfaqnisar/ESOCR-API" target="_blank">**API** </a>to **interact with the Nanonets API**. So, if we were to **send a file to the API**, the **file will be processed** by the model & **provide us with the response**. The API would then **beautify and store the response** in **firebase** and **upload** the file to the **Google Cloud**. 
-> Note: API  can easily be configured to upload the data to any preferred cloud.
+We built an <a href="https://github.com/ashfaqnisar/ESOCR-API" target="_blank">**API** </a>to **interact with the Nanonets API**. So, if we were to **send a file to the API**, the **file will be processed** by the model & **provide us with the response**. The API would then **beautify and store the response** in **firebase** and **upload** the file to the **Google Cloud**. API  can easily be configured to upload the data to any **preferred cloud**. As **provided in the problem statement** ,the data received from the OCR should be sent to a **digital form**. So, we started **working on building the frontend** for the project 
+>**Note**: . Later on in the call with exact sciences, it was verified that they are mainly looking for an pure API solution. But, until then, we had already built the frontend!
+<br/>
 
-As **provided in the problem statement** the data received from the OCR should be sent to a **digital form**. So, we started **working on building the frontend** for the project 
->**Note**: Later on in the call with exact sciences, was verified that they just need a pure API. But, until then, we had already built the frontend!
-
-Coming to the front-end, we created a **dashboard** from which the **user can upload the scanned files** to the API which would then be processed and **results will be provided to the user in a digital form**. The user can also **update the data from the digital form.** 
+Coming to the **<a href="https://esocr.now.sh">frontend</a>**, we created a **dashboard** from which the **user can upload the scanned files** to the API which would then be processed and **results will be provided to the user in a digital form**. The user can also **update the data from the digital form.** 
 
 
 ## Features
 ### Handling Handwritten Font: 
 As one of the main objectives of our system was the ability to **detect the handwritten fonts** from the form. We are able to achieve that using **our ESOCR system**. 
-Screenshots
+| | | 
+|:-------------------------:|:-------------------------:|
+|<img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://i.imgur.com/lPMSGll.jpg">  |  <img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://i.imgur.com/vVsco0N.jpg">
+|<img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://i.imgur.com/UL74B4Z.jpg">  |  <img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://i.imgur.com/V7pmkmK.jpg">
 In order **to achieve this**, we had to **train our model** with  **different types of handwritten fonts**.
 ### Quick response time:
-Screenshots of the response time
-Coming to **response time**, we were able to **process the whole document** under **22 sec** for this file. **Time may differ** based on the **quality of the file**,  **size of the file** and the **type of file**.
+Coming to **response time**, we were able to **process the whole document** under **22 sec** for this **<a href="https://esocr.imgix.net/ZK9M8ho11uRsljzsHICykGlC8iI3/1228834312.jpg">file</a>**. **Time may differ** based on the **quality of the file**,  **size of the file** and the **type of file**.
 > Note: The response time can be **decreased by hosting** the **docker container** on our cloud and providing **more processing power**.
 
-### Process OCR even with the deviated alignment of the form:
-Screenshot
-Even, if the **form** or **document** is a **little bit misaligned** the system would be able to **detect the fields** from the form. 
 
-### Process multiple forms at a time:
-Screenshot of processing multiple forms
-We can make multiple requests to the API to process multiple forms simultaneously and increase the overall performance of the app and decrease the time required for the processing of the multiple files. 
 
 ### Simple and pleasant user interface:
-Screenshots
-The front end of the Esocr is **very simple** and **straight forward** and **easily can be customized** according to our requirements.  All of the **processed forms** of the user are available in the **ESOCR Web App**. 
+| | | 
+|:-------------------------:|:-------------------------:|
+|<img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://i.imgur.com/97opSZO.jpg">  |  <img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://i.imgur.com/imSR8DY.jpg">|
+The front end of the Esocr is **very simple** and **straight forward** and **can be customized easily ** according to our requirements.  All of the **processed forms** of the user are available in the **ESOCR Web App**. 
 
 ### Customizable Response:
-Screenshot
-We can easily **customize the fields** and also **add new fields** in the **nanonets** easily. Let's suppose if we want to **add a field** called "**email address**" in the patient information.  We can add that **field in nanonets** by creating a field called "**patient.emailAddress**" 
+We can easily **customize the fields** and also **add new fields** in the **nanonets** easily. Let's suppose if we want to **add a field** called "**email address**" in the patient information.  We can add that **field in nanonets** by creating a field called "**patient.emailAddress**" .  Below are some of the sample responses  from the OCR system.
+#### Sample Raw Response: 
+```js
+{
+  {
+    "message": "Success",
+    "result": [
+        {
+            "message": "Success",
+            "input": "db0301a5-e2fe-4ada-9c1a-cab2a973db0a.jpg",
+            "prediction": [
+                {
+                    "label": "provider.healthCare",
+                    "xmin": 704,
+                    "ymin": 460,
+                    "xmax": 921,
+                    "ymax": 502,
+                    "score": 1,
+                    "ocr_text": "EXOSPACE"
+                },
+                {
+                    "label": "provider.name",
+                    "xmin": 429,
+                    "ymin": 559,
+                    "xmax": 563,
+                    "ymax": 602,
+                    "score": 1,
+                    "ocr_text": "Mcgee"
+                }// Many other fields present Here!!!   
+            ],
+            "page": 0,
+            "request_file_id": "0450e9a2-df44-4ed0-96b9-b38d831aeefc",
+            "filepath": "uploadedfiles/4ed6dcd3....../PredictionImages/356437671.jpeg",
+            "id": "68d096fd-b93e-11ea-8789-b655b7b9b939"
+        }
+    ]
+}
+
+```
+#### Sample Beautified Raw Response: 
+```js
+{
+    "uploadedFile": "sampleForm.jpg",
+    "prediction": {
+        "date": "10/04/2019",
+        "billing": {
+            "priorAuthorizationCode": "209750134",
+            "policyNumber": "484150",
+            "plan": "platinum",
+            "groupNumber": "153806",
+            "claimsSubmissionAddress": "565 Llama court, kentucky, 960309",
+            "primaryInsurance": "waretel",
+            "policyHolder": {
+                "dob": "04/08/2016",
+                "name": "_Velasquez"
+            }
+        }// Many other fields present Here!!!   
+    },
+    "id": "2a989b8c-b93d-11ea-ac49-2afb8b0efd3c"
+}
+```
+
+### Process OCR even with the deviated alignment of the form:
+Even, if the **form** or **document** is a **little bit misaligned** the system would be able to **detect the fields** from the form. 
 
 ### Cost-Efficient Solution:
 At present to extract one text field from the form,  it is cost around $0.0099. If there are 100 fields in a form it would cost $0.0099x100=$0.99/Document. In order to process around 100 documents, it would cost around $99. This cost is for creating the model, training and providing the model as an API. 
 
 If we are **daily processing around 1000 documents** per day, it would cost us a  **huge amount of money**. But, there is a solution to this issue.  We had a **call with the Nanonets sales team** and after telling them all of **our requirements**. The **customized solution** with the **radio buttons** included would cost us around **approx 499 dollars**.They would be willing to provide us with the **whole model** & API as a **docker container** which can be **hosted on any preferred cloud**.
 
+### Ability to update the extracted data from the web application:
+<img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://i.imgur.com/HmGPJqH.png">
+As all of the **processed data is available** in the **firebase**. We can **update the data** and **fix any wrong predictions** from the **form available in the ESOCR Web App**.
 
+### Process multiple forms at a time:
+<img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://im3.ezgif.com/tmp/ezgif-3-ad593ba65a7a.gif">
+We can make multiple requests to the API to process multiple forms simultaneously and increase the overall performance of the app and decrease the time required for the processing of the multiple files. 
 
 ### Ability to process images/PDFs on the fly using Imgix:
-As the web app, was **not able to render the PDF/other file formats directly** and **performing file conversions** to handle them would have been more **time consuming** and **not that effective**. To solve this issue, we started using the **imgix**, which would connect with our **google cloud bucket** and **host all of the files by itself**. Imgix was very helpful in **decreasing/increasing the size** of the images and also **formatting them**. **[Here](https://esocr.imgix.net/ZK9M8ho11uRsljzsHICykGlC8iI3/1228834312.jpg?or=0)** is a sample pdf formatted by the imgix as a png. 
-
-### Ability to update the extracted data from the web application:
-As all of the **processed data is available** in the **firebase**. We can **update the data** and **fix any wrong predictions** from the **form available in the ESOCR Web App**.
+As the web app, was **not able to render the PDF/other file formats directly** and **performing file conversions** to handle them would have been more **time consuming** and **not that effective**. To solve this issue, we started using the **imgix**, which would connect with our **google cloud bucket** and **host all of the files by itself**. Imgix was very helpful in **decreasing/increasing the size** of the images and also **formatting them**. **[Here](https://esocr.imgix.net/t1hzdziyu7tyMglnDQPH/1228834312.pdf?fm=png&or=0)** is a sample pdf formatted by the imgix as a png. 
 
 
 ## Milestones
