@@ -90,6 +90,7 @@ As one of the main objectives of our system was the ability to **detect the hand
 |:-------------------------:|:-------------------------:|
 |<img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://i.imgur.com/lPMSGll.jpg">  |  <img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://i.imgur.com/vVsco0N.jpg">
 |<img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://i.imgur.com/UL74B4Z.jpg">  |  <img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://i.imgur.com/V7pmkmK.jpg">
+
 In order **to achieve this**, we had to **train our model** with  **different types of handwritten fonts**.
 ### Quick response time:
 Coming to **response time**, we were able to **process the whole document** under **22 sec** for this **<a href="https://esocr.imgix.net/ZK9M8ho11uRsljzsHICykGlC8iI3/1228834312.jpg">file</a>**. **Time may differ** based on the **quality of the file**,  **size of the file** and the **type of file**.
@@ -101,6 +102,7 @@ Coming to **response time**, we were able to **process the whole document** unde
 | | | 
 |:-------------------------:|:-------------------------:|
 |<img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://i.imgur.com/97opSZO.jpg">  |  <img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://i.imgur.com/imSR8DY.jpg">|
+
 The front end of the Esocr is **very simple** and **straight forward** and **can be customized easily ** according to our requirements.  All of the **processed forms** of the user are available in the **ESOCR Web App**. 
 
 ### Customizable Response:
@@ -176,11 +178,13 @@ If we are **daily processing around 1000 documents** per day, it would cost us a
 
 ### Ability to update the extracted data from the web application:
 <img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://i.imgur.com/HmGPJqH.png">
+
 As all of the **processed data is available** in the **firebase**. We can **update the data** and **fix any wrong predictions** from the **form available in the ESOCR Web App**.
 
 ### Process multiple forms at a time:
 <img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://im3.ezgif.com/tmp/ezgif-3-ad593ba65a7a.gif">
-We can make multiple requests to the API to process multiple forms simultaneously and increase the overall performance of the app and decrease the time required for the processing of the multiple files. 
+
+We can make **multiple requests to the API** to process multiple forms **simultaneously** and **increase the overall performance** of the app and **decrease the time required** for the **processing** of the multiple files. 
 
 ### Ability to process images/PDFs on the fly using Imgix:
 As the web app, was **not able to render the PDF/other file formats directly** and **performing file conversions** to handle them would have been more **time consuming** and **not that effective**. To solve this issue, we started using the **imgix**, which would connect with our **google cloud bucket** and **host all of the files by itself**. Imgix was very helpful in **decreasing/increasing the size** of the images and also **formatting them**. **[Here](https://esocr.imgix.net/t1hzdziyu7tyMglnDQPH/1228834312.pdf?fm=png&or=0)** is a sample pdf formatted by the imgix as a png. 
@@ -195,7 +199,6 @@ As the web app, was **not able to render the PDF/other file formats directly** a
 #### 5. We built thorough documentation of the API.
 #### 6. Able to make the frontend talk with the firestore database using the API as the middleman
 #### 7. For the frontend, we were able to format all the different file types into JPEG's on the fly without any file conversion of the input file using the imgix.
-
 
 ## Enchancements
 #### The goals of this application were purposely kept within what was believed to be attainable within the allotted timeline and resources. As such, many enhancements can be made upon this initial design. The following are the milestones intended for future expansion and enhancement of the project.
