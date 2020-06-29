@@ -229,36 +229,26 @@ yarn watch:dev
 
 ## Stack 
 ### API Technology Stack:
-#### Express JS:
-We have used Express JS to create the API as it is very **robust**, **small** and **provides a range of features**.
+**Express JS:** We have used Express JS to create the API as it is very **robust**, **small** and **provides a range of features**.
 
-#### Nanonets API:
-The Nanonets API is used to **process the image/pdf** provided to it and **provide the results back** to the ESOCR API.
+**Nanonets API:** The Nanonets API is used to **process the image/pdf** provided to it and **provide the results back** to the ESOCR API.
 
-#### Firestore Database:
-We have used the **Firebase Firestore database** to store all of the form-data gathered from the provided form.
+**Firestore Database:** We have used the **Firebase Firestore database** to store all of the form-data gathered from the provided form.
 
-#### Rest API:
-The API is **very flexible** and can **modify the API** according to our requirements and the API can be **easily scalable**.
+**Rest API:** The API is **very flexible** and can **modify the API** according to our requirements and the API can be **easily scalable**.
 
-#### Babel: 
-We have used to babel to **convert the ES6 code** into **ES5 code**. For the node to **understand the code**. 
+**Babel:** We have used to babel to **convert the ES6 code** into **ES5 code**. For the node to **understand the code**. 
 
 ### Frontend Tech Stack: 
-#### React JS:
-React JS is very useful while **creating web apps** that are **data-driven**. React is **fast, scalable, and responsive.**
+**React JS:** React JS is very useful while **creating web apps** that are **data-driven**. React is **fast, scalable, and responsive.**
 
-#### Material UI:
-We have consistently used **Material UI components** throughout the application. In order to make the **web app beautiful** & **responsive across all the devices**.
+**Material UI:** We have consistently used **Material UI components** throughout the application. In order to make the **web app beautiful** & **responsive across all the devices**.
 
-#### SWR:
-We have used **SWR** for **fetching the data** as it **stores the data in the cache** and has many awesome features.
+**SWR**: We have used **SWR** for **fetching the data** as it **stores the data in the cache** and has many awesome features.
 
-#### React Redux:
-We used **redux to handle the complex states** of the application and thunk to make the API calls to the backend.
+**React Redux:** We used **redux to handle the complex states** of the application and thunk to make the API calls to the backend.
 
-#### SASS/SCSS:
-SASS is **way powerful** than generic CSS. We have opted to **build the styles in SCSS** for the application.
+**SASS/SCSS:**  SASS is **way powerful** than generic CSS. We have opted to **build the styles in SCSS** for the application.
 
 ## Contributors ✨: 
 
