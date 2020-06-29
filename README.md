@@ -29,6 +29,7 @@
   <a href="#solution">Solution</a> •
   <a href="#features">Features</a> •
   <a href="#milestones">Milestones</a> •
+  <a href="#enchancements">Enchancements</a> •
   <a href="#installation">Installation</a> •
   <a href="#stack">Stack</a> 
 
@@ -195,6 +196,15 @@ As the web app, was **not able to render the PDF/other file formats directly** a
 #### 6. Able to make the frontend talk with the firestore database using the API as the middleman
 #### 7. For the frontend, we were able to format all the different file types into JPEG's on the fly without any file conversion of the input file using the imgix.
 
+
+## Enchancements
+#### The goals of this application were purposely kept within what was believed to be attainable within the allotted timeline and resources. As such, many enhancements can be made upon this initial design. The following are the milestones intended for future expansion and enhancement of the project.
+
+-   As, we were only able to **purchase the medium pricing plan** for the **OCR detection**.  It **didn't include** the **radio buttons facility**. But, in the future,  If we are **selected by the exact sciences company**. We would either **purchase the large pricing plan** or **custom pricing plan** which would include the **radio buttons functionality** . 
+    
+-   **Increasing the training data** for the **OCR detection** from **150 images to 500 images**
+    
+-   Hosting the **docker container** on our **cloud** to **increase the speed** of the **processing of the documents.**
 
 ## Installation
 Use the package manager [yarn](https://yarnpkg.com/lang/en/docs/install/#windows-stable) to install the yarn in your system.
