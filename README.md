@@ -196,17 +196,18 @@ At present to **extract one text field** from the form,  it is cost around **$0.
 If we are **daily processing around 1000 documents** per day, it would cost us a  **huge amount of money**. But, there is a solution to this issue.  We had a **call with the Nanonets sales team** and after telling them all of **our requirements**. The **customized solution** with the **radio buttons** included would cost us around **approx 499 dollars**.They would be willing to provide us with the **whole model** & API as a **docker container** which can be **hosted on any preferred cloud**.
 
 ### Ability to update the extracted data from the web application:
-<img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://i.imgur.com/HmGPJqH.png">
+<img width="1604" src="https://i.imgur.com/HmGPJqH.png">
 
 As all of the **processed data is available** in the **firebase**. We can **update the data** and **fix any wrong predictions** from the **form available in the ESOCR Web App**.
 
 ### Process multiple forms at a time:
-<img src="https://storage.googleapis.com/esocr-app/multiple.jpg"/>
+<img src="https://storage.googleapis.com/esocr-app/test.gif"/>
 
 We can make **multiple requests to the API** to process multiple forms **simultaneously** and **increase the overall performance** of the app and **decrease the time required** for the **processing** of the multiple files. 
 
 ### Ability to process images/PDFs on the fly using Imgix:
 As the web app, was **not able to render the PDF/other file formats directly** and **performing file conversions** to handle them would have been more **time consuming** and **not that effective**. To solve this issue, we started using the **imgix**, which would connect with our **google cloud bucket** and **host all of the files by itself**. Imgix was very helpful in **decreasing/increasing the size** of the images and also **formatting them**. **[Here](https://esocr.imgix.net/t1hzdziyu7tyMglnDQPH/1228834312.pdf?fm=png&or=0)** is a sample pdf formatted by the imgix as a png. 
+
 
 ## Milestones
 
