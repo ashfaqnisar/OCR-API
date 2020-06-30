@@ -41,7 +41,7 @@
 
 [![View Documentation](https://i.imgur.com/ZA83nhL.png)](https://documenter.getpostman.com/view/2498562/T17AkWcn?version=latest)
 
-### <a href="https://esocr-api.herokuapp.com/" target="_blank">ESOCR API Demo</a> • <a href="https://github.com/ashfaqnisar/esocr" target="_blank">ESOCR Frontend Repo</a> • <a href="https://github.com/ashfaqnisar/ESOCR-DATASET-GENERATOR" target="_blank">ESOCR Dataset Generator Repo</a>
+### <a href="http://68.183.118.89:8080" target="_blank">ESOCR API Demo</a> • <a href="https://github.com/ashfaqnisar/esocr" target="_blank">ESOCR Frontend Repo</a> • <a href="https://github.com/ashfaqnisar/ESOCR-DATASET-GENERATOR" target="_blank">ESOCR Dataset Generator Repo</a>
 
 ## Problem Statement: 
 Building a **highly accurate OCR solution** that will take **manually filled form** as an **input** and provide the **data in the digital form**. 
