@@ -3,6 +3,7 @@ import path from 'path';
 import morgan from 'morgan';
 import cors from 'cors';
 import * as Sentry from '@sentry/node';
+import timeout from 'connect-timeout';
 
 import users from './routes/users'
 import ocr from './routes/ocr'
@@ -23,6 +24,7 @@ Sentry.init({
 });
 
 app.use(Sentry.Handlers.requestHandler());
+app.use(timeout('60s'))
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
