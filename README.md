@@ -39,7 +39,7 @@
 ## Demo
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/4ae3eeaa8b760bf5941f)
 
-[![View Documentation](https://i.imgur.com/ZA83nhL.png)](https://documenter.getpostman.com/view/2498562/T17AkWcn?version=latest)
+[![View Documentation](https://documenter.getpostman.com/view/2498562/T17DfoUt)
 
 ### <a href="http://68.183.118.89:8080" target="_blank">ESOCR API Demo</a> • <a href="https://github.com/ashfaqnisar/esocr" target="_blank">ESOCR Frontend Repo</a> • <a href="https://github.com/ashfaqnisar/ESOCR-DATASET-GENERATOR" target="_blank">ESOCR Dataset Generator Repo</a>
 
