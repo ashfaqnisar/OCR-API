@@ -10,6 +10,8 @@ import {Storage} from "@google-cloud/storage";
 import multer from "multer";
 import {v4 as uuidv4} from 'uuid'
 
+var timeout = require('connect-timeout')
+
 
 const router = express.Router();
 
@@ -41,8 +43,9 @@ const mul = multer({
 
 let useNanonets = true;
 
-router.post("/ocr", mul.single("file"), async (req, res, next) => {
+router.post("/ocr", timeout('60s'), mul.single("file"), haltOnTimedout, async (req, res, next) => {
     try {
+        if (req.timedout) return
         const {uid} = req.query;
         if (!req.file) {
             res.status(400).json({code: 400, message: 'Please, provide an file with the request '})
@@ -266,8 +269,9 @@ router.delete("/ocr/:ocrId", async (req, res) => {
 });
 
 
-router.post("/ocr/raw", mul.single("file"), async (req, res) => {
+router.post("/ocr/raw", timeout('60s'), mul.single("file"), haltOnTimedout, async (req, res) => {
     try {
+        if (req.timedout) return
         if (!req.file) {
             res.status(400).json({code: 400, message: 'Please, provide an file with the request '})
             return
@@ -300,8 +304,9 @@ router.post("/ocr/raw", mul.single("file"), async (req, res) => {
         res.status(err.code || 500).json(error);
     }
 })
-router.post("/ocr/raw/beautify", mul.single("file"), async (req, res) => {
+router.post("/ocr/raw/beautify", timeout('60s'), haltOnTimedout, mul.single("file"), async (req, res) => {
     try {
+        if (!req.timedout) return
         if (!req.file) {
             res.status(400).json({code: 400, message: 'Please, provide an file with the request '})
             return
@@ -334,5 +339,9 @@ router.post("/ocr/raw/beautify", mul.single("file"), async (req, res) => {
         res.status(err.code || 500).json(error);
     }
 })
+
+function haltOnTimedout(req, res, next) {
+    if (!req.timedout) next()
+}
 
 export default router
