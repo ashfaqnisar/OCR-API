@@ -105,10 +105,10 @@ As one of the main objectives of our system was the ability to **detect the hand
 
 In order **to achieve this**, we had to **train our model** with  **different types of handwritten fonts**.
 ### Quick response time:
-Coming to **response time**, we were able to **process the whole document** under **22 sec** for this **<a href="https://esocr.imgix.net/ZK9M8ho11uRsljzsHICykGlC8iI3/1228834312.jpg">file</a>**. **Time may differ** based on the **quality of the file**,  **size of the file** and the **type of file**.
+<img src="https://i.imgur.com/JehGihA.jpg" /> 
+
+Coming to **response time**, we were able to **process the whole document** approx under **22- 25 sec** for this **<a href="https://esocr.imgix.net/ZK9M8ho11uRsljzsHICykGlC8iI3/1228834312.jpg">file</a>**. **Time may differ** based on the **quality of the file**,  **size of the file** and the **type of file**.
 > Note: The response time can be **decreased by hosting** the **docker container** on our cloud and providing **more processing power**.
-
-
 
 ### Simple and pleasant user interface:
 | | | 
