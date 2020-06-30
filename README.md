@@ -95,6 +95,7 @@ Coming to the **<a href="https://esocr.now.sh">frontend</a>**, we created a **da
 </tr>
 </table>
 
+
 ## Features
 ### Handling Handwritten Font: 
 As one of the main objectives of our system was the ability to **detect the handwritten fonts** from the form. We are able to achieve that using **our ESOCR system**. 
@@ -107,8 +108,10 @@ In order **to achieve this**, we had to **train our model** with  **different ty
 ### Quick response time:
 <img src="https://i.imgur.com/JehGihA.jpg" /> 
 
-Coming to **response time**, we were able to **process the whole document** approx under **22- 25 sec** for this **<a href="https://esocr.imgix.net/ZK9M8ho11uRsljzsHICykGlC8iI3/1228834312.jpg">file</a>**. **Time may differ** based on the **quality of the file**,  **size of the file** and the **type of file**.
+Coming to **response time**, we were able to **process the whole document** approx under **22 sec** for this **<a href="https://esocr.imgix.net/ZK9M8ho11uRsljzsHICykGlC8iI3/1228834312.jpg">file</a>**. **Time may differ** based on the **quality of the file**,  **size of the file** and the **type of file**.
 > Note: The response time can be **decreased by hosting** the **docker container** on our cloud and providing **more processing power**.
+
+
 
 ### Simple and pleasant user interface:
 | | | 
@@ -186,7 +189,9 @@ We can easily **customize the fields** and also **add new fields** in the **nano
 Even, if the **form** or **document** is a **little bit misaligned** the system would be able to **detect the fields** from the form. 
 
 ### Cost-Efficient Solution:
-At present to extract one text field from the form,  it is cost around $0.0099. If there are 100 fields in a form it would cost $0.0099x100=$0.99/Document. In order to process around 100 documents, it would cost around $99. This cost is for creating the model, training and providing the model as an API. 
+At present to **extract one text field** from the form,  it is cost around **$0.0099** based on the plan. If there are 100 fields in a form it would **cost $0.0099x100=$0.99/Document**. In order to process around **100 documents**, it would cost around **$99**. This cost is for creating the **model**, **training** and **providing the model** as an **API**. 
+
+> The cost per field may defer based on the plan purchased from nanonets.
 
 If we are **daily processing around 1000 documents** per day, it would cost us a  **huge amount of money**. But, there is a solution to this issue.  We had a **call with the Nanonets sales team** and after telling them all of **our requirements**. The **customized solution** with the **radio buttons** included would cost us around **approx 499 dollars**.They would be willing to provide us with the **whole model** & API as a **docker container** which can be **hosted on any preferred cloud**.
 
@@ -196,13 +201,12 @@ If we are **daily processing around 1000 documents** per day, it would cost us a
 As all of the **processed data is available** in the **firebase**. We can **update the data** and **fix any wrong predictions** from the **form available in the ESOCR Web App**.
 
 ### Process multiple forms at a time:
-<img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://im3.ezgif.com/tmp/ezgif-3-ad593ba65a7a.gif">
+<img src="https://storage.googleapis.com/esocr-app/multiple.jpg"/>
 
 We can make **multiple requests to the API** to process multiple forms **simultaneously** and **increase the overall performance** of the app and **decrease the time required** for the **processing** of the multiple files. 
 
 ### Ability to process images/PDFs on the fly using Imgix:
 As the web app, was **not able to render the PDF/other file formats directly** and **performing file conversions** to handle them would have been more **time consuming** and **not that effective**. To solve this issue, we started using the **imgix**, which would connect with our **google cloud bucket** and **host all of the files by itself**. Imgix was very helpful in **decreasing/increasing the size** of the images and also **formatting them**. **[Here](https://esocr.imgix.net/t1hzdziyu7tyMglnDQPH/1228834312.pdf?fm=png&or=0)** is a sample pdf formatted by the imgix as a png. 
-
 
 ## Milestones
 
