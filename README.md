@@ -35,7 +35,8 @@
 
 </p>
 
-<h3>The online demo for the API & front end is unstable. Please, run the application locally</h3>
+<h3>Note: The online demo for the **API** & **front end** is unstable. Please, run the application locally</h3>
+
 ---
 ## Demo
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/639fff296dee5b08bed5#?env%5BProduction%5D=W3sia2V5IjoiZW5kcG9pbnQiLCJ2YWx1ZSI6Imh0dHBzOi8vZXNvY3ItYXBpLmV6ZXJrYS5pbiIsImVuYWJsZWQiOnRydWV9XQ==)
