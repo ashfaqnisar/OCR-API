@@ -35,7 +35,6 @@
 
 </p>
 
-<h3>Note: The online demo for the API is unstable. Please, run the application locally</h3>
 
 ---
 ## Demo
