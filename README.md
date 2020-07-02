@@ -187,6 +187,10 @@ We can easily **customize the fields** and also **add new fields** in the **nano
 ```
 
 ### Process OCR even with the deviated alignment of the form:
+<p align="center">
+  <img src="https://i.imgur.com/TC1MtON.png" /> 
+</p>
+
 Even, if the **form** or **document** is a **little bit misaligned** the system would be able to **detect the fields** from the form. 
 
 ### Cost-Efficient Solution:
