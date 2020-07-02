@@ -244,10 +244,10 @@ The **yarn install** command is used to install all the different dependencies w
 yarn install
 ```
 
-#### 2. Yarn watch:dev:
-The **yarn watch:dev** command  will start the project and listen for any sort of changes in the folder.
+#### 2. Yarn start:
+The **yarn start** command  will start the project and listen for any sort of changes in the folder.
 ```bash
-yarn watch:dev
+yarn start
 ```
  Open **http://localhost:8080** to check the project .
 
