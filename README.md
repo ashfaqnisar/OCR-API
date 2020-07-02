@@ -207,7 +207,7 @@ As all of the **processed data is available** in the **firebase**. We can **upda
 We can make **multiple requests to the API** to process multiple forms **simultaneously** and **increase the overall performance** of the app and **decrease the time required** for the **processing** of the multiple files. 
 
 ### Ability to process images/PDFs on the fly using Imgix:
-As the web app, was **not able to render the PDF/other file formats directly** and **performing file conversions** to handle them would have been more **time consuming** and **not that effective**. To solve this issue, we started using the **imgix**, which would connect with our **google cloud bucket** and **host all of the files by itself**. Imgix was very helpful in **decreasing/increasing the size** of the images and also **formatting them**. **[Here](https://esocr.imgix.net/t1hzdziyu7tyMglnDQPH/1228834312.pdf?fm=png&or=0)** is a sample pdf formatted by the imgix as a png. 
+As the web app, was **not able to render the PDF/other file formats directly** and **performing file conversions** to handle them would have been more **time consuming** and **not that effective**. To solve this issue, we started using the **imgix**, which would connect with our **google cloud bucket** and **host all of the files by itself**. Imgix was very helpful in **decreasing/increasing the size** of the images and also **formatting them**. **[Here](https://esocr.imgix.net/t1hzdziyu7tyMglnDQPH/1228834312.pdf?fm=jpg&or=0)** is a sample pdf formatted by the imgix as a png. 
 
 
 ## Milestones
