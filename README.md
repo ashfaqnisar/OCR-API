@@ -124,7 +124,7 @@ Coming to **response time**, we were able to **process the whole document** appr
 The front end of the Esocr is **very simple** and **straight forward** and **can be customized easily ** according to our requirements.  All of the **processed forms** of the user are available in the **ESOCR Web App**. 
 
 ### Customizable Response:
-We can easily **customize the fields** and also **add new fields** in the **nanonets** easily. Let's suppose if we want to **add a field** called "**email address**" in the patient information.  We can add that **field in nanonets** by creating a field called "**patient.emailAddress**" .  Below are some of the sample responses  from the OCR system.
+We can easily **customize the fields** and also **add new fields** in the **nanonets** easily. Let's suppose if we want to **add a field** called "**email address**" in the patient information.  We can add that **field in nanonets** by creating a field called "**patient.emailAddress**" . **Each field** in the response contains **score field** which provides us the **accuracy of the prediction**. We can easily **modify the frontend** to provide us with an **alert** when the **score** is **less than** the **specified score**.  Below are some of the **sample responses**  from the OCR system.
 #### Sample Raw Response: 
 ```js
 {
