@@ -30,7 +30,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get('/', (req, res) => {
-    res.status(200).send(`ESOCR API`)
+    res.end(`ESOCR API`)
 });
 
 app.use('/', users)
