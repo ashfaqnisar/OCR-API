@@ -38,9 +38,9 @@
 
 ---
 ## Demo
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/639fff296dee5b08bed5#?env%5BProduction%5D=W3sia2V5IjoiZW5kcG9pbnQiLCJ2YWx1ZSI6Imh0dHBzOi8vZXNvY3ItYXBpLmV6ZXJrYS5pbiIsImVuYWJsZWQiOnRydWV9XQ==)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/f26caaeb394fab1d67b8#?env%5BProduction%5D=W3sia2V5IjoiZW5kcG9pbnQiLCJ2YWx1ZSI6Imh0dHBzOi8vZXNvY3ItYXBpLmV6ZXJrYS5pbiIsImVuYWJsZWQiOnRydWV9XQ==)
 
- [![View Documentation](https://i.imgur.com/ZA83nhL.png)](https://documenter.getpostman.com/view/2498562/T17DfoUt?version=latest)
+ [![View Documentation](https://i.imgur.com/ZA83nhL.png)](https://documenter.getpostman.com/view/2498562/T17Geno2?version=latest)
  
 ### <a href="https://esocr-api.ezerka.in" target="_blank">ESOCR API Demo</a> • <a href="https://github.com/ashfaqnisar/esocr" target="_blank">ESOCR Frontend Repo</a> • <a href="https://github.com/ashfaqnisar/ESOCR-DATASET-GENERATOR" target="_blank">ESOCR Dataset Generator Repo</a>
 
