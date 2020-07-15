@@ -9,16 +9,9 @@ import ocr from './routes/ocr'
 
 const app = express();
 
-function getEnvironment() {
-    if (process.env.NODE_ENV === 'development') {
-        return 'development';
-    } else if (process.env.NODE_ENV === 'production') {
-        return 'production';
-    }
-}
 
 Sentry.init({
-    environment: getEnvironment(),
+    environment: process.env.NODE_ENV,
     dsn: 'https://f2c1250fc2344eaa8c11e9a3e2503fb9@o361783.ingest.sentry.io/5239445'
 });
 
