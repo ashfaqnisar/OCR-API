@@ -239,7 +239,9 @@ Use the package manager [yarn](https://yarnpkg.com/lang/en/docs/install/#windows
 
 After **cloning the repo** to your system, run the following commands in the project folder.
 
-> **Note**: Please place your googleProject key in config/service.json 
+> **Note**: Please place your **googleCloudProject** key in **config/service.json** and change the **project name** in **app.js**, 
+
+
 
 #### 1. Yarn Install:
 The **yarn install** command is used to install all the different dependencies which are present in the project.
@@ -253,6 +255,8 @@ The **yarn start** command  will start the project and listen for any sort of ch
 yarn start
 ```
  Open **http://localhost:8080** to check the project .
+
+>  **Note:** If you are having **issues** running the **application locally**, Please use the endpoint [**https://esocr-api.ezerka.in/**](https://esocr-api.ezerka.in/) and check the [**documentation**](https://documenter.getpostman.com/view/2498562/T17Geno2?version=latest) for the information about endpoints or use the [**Web Application**](https://esocr.now.sh/)
 
 ## Stack 
 ### API Technology Stack:
