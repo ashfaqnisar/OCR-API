@@ -1,3 +1,4 @@
+
 <h1 align="center">
   <br>
   <a href="https://github.com/ashfaqnisar/ESOCR.git"><img src="https://i.imgur.com/tJ4s0sJ.png" alt="ESOCR"></a>
@@ -237,6 +238,8 @@ As the web app, was **not able to render the PDF/other file formats directly** a
 Use the package manager [yarn](https://yarnpkg.com/lang/en/docs/install/#windows-stable) to install the yarn in your system.
 
 After **cloning the repo** to your system, run the following commands in the project folder.
+
+> **Note**: Please place your googleProject key in config/service.json 
 
 #### 1. Yarn Install:
 The **yarn install** command is used to install all the different dependencies which are present in the project.
